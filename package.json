@@ -1,0 +1,27 @@
+{
+  "name": "riotgamesapi-typenode",
+  "version": "0.0.1",
+  "description": "Simple TypeScript library for Riot Games' API using riotgamesapi-typedef definitinos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Protectator/riotgamesapi-typenode.git"
+  },
+  "keywords": [
+    "riot",
+    "games",
+    "api",
+    "league",
+    "of",
+    "legends"
+  ],
+  "author": "Kewin Dousse (Protectator)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Protectator/riotgamesapi-typenode/issues"
+  },
+  "homepage": "https://github.com/Protectator/riotgamesapi-typenode#readme"
+}
