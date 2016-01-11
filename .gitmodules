@@ -1,0 +1,3 @@
+[submodule "lib/riotgamesapi-typedef"]
+	path = lib/riotgamesapi-typedef
+	url = https://github.com/Protectator/riotgamesapi-typedef
