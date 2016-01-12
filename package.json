@@ -1,8 +1,8 @@
 {
   "name": "riotgamesapi-typenode",
   "version": "0.0.1",
-  "description": "Simple TypeScript library for Riot Games' API using riotgamesapi-typedef definitinos",
-  "main": "index.js",
+  "description": "Simple TypeScript library for Riot Games' API using riotgamesapi-typedef definitions",
+  "main": "build/riotgamesapi-typenode.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,10 +18,17 @@
     "of",
     "legends"
   ],
-  "author": "Kewin Dousse (Protectator)",
+  "author": "Kewin Dousse (Protectator) <me@protectator.ch>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Protectator/riotgamesapi-typenode/issues"
   },
-  "homepage": "https://github.com/Protectator/riotgamesapi-typenode#readme"
+  "homepage": "https://github.com/Protectator/riotgamesapi-typenode#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-qunit": "^1.3.0",
+    "gulp-typescript": "^2.10.0",
+    "qunit": "^0.7.7",
+    "typescript": "^1.7.5"
+  }
 }
