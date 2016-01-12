@@ -5,17 +5,23 @@
 */
 
 ///<reference path="../src/riotgamesapi-typenode"/>
-///<reference path="../tsd/qunit"/>
+///<reference path="../typings/mocha/mocha" />
+///<reference path="../typings/chai/chai" />
+
+import chai = require('chai');
 
 export class RiotTypenodeTests {     
     public static run() {
-        QUnit.module("Test : Working tests");
-        QUnit.test("Placeholder test", function(assert) {
-            assert.equal(1, 1);
+        var assert: Chai.Assert = chai.assert;
+        
+        describe('placeholder', () => {
+            describe('function1', () => {
+                it ("should add properly", () => {
+                    assert.equal(2+2, 4, "Test");
+                })
+            });
         });
     }
 }
 
 RiotTypenodeTests.run();
-
-QUnit.start();

@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
-var qunit = require('gulp-qunit');
-var testrunner = require("qunit");
+var mocha = require('gulp-mocha')
 
 gulp.task('default', ['build']);
 
@@ -26,8 +25,5 @@ gulp.task('buildTest', function() {
 });
 
 gulp.task('test', function() {
-   testrunner.run({
-       code: "build/riotgamesapi-typenode.js",
-       tests: "build/riotgamesapi-typenode-tests.js"
-   }); 
+   gulp.src('build/riotgamesapi-typenode-tests.js', {read: false}).pipe(mocha({})); 
 });
