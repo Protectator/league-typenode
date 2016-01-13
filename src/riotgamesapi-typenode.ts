@@ -10,7 +10,7 @@
 import * as http from "http";
 import * as api from "riotGamesApi";
 
-module riotGamesTypeNode {
+export module riotGamesTypeNode {
     export class RiotTypenode implements api.champion.Endpoints {
         getChampions(region:string, freeToPlay?:boolean):api.champion.ChampionListDto {
             return undefined;
@@ -56,6 +56,4 @@ module riotGamesTypeNode {
     }
 }
 
-declare module "riotGamesTypeNode" {
-    export = riotGamesTypeNode;
-}
+export * from "./riotgamesapi-typenode";
