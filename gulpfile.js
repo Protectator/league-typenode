@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
-var mocha = require('gulp-mocha')
+var mocha = require('gulp-mocha');
 
 gulp.task('default', ['build']);
 
@@ -24,6 +24,6 @@ gulp.task('buildTest', function() {
     })).pipe(gulp.dest('build/'));
 });
 
-gulp.task('test', function() {
+gulp.task('test', ['buildTest'], function() {
    gulp.src('build/riotgamesapi-typenode-tests.js', {read: false}).pipe(mocha({})); 
 });
