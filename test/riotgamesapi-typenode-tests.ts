@@ -9,9 +9,12 @@
 ///<reference path="../typings/mocha/mocha" />
 ///<reference path="../typings/chai/chai" />
 
+'use strict';
+
 import * as chai from 'chai';
-import * as api from "riotGamesApi";
+import * as api from 'riotGamesApi';
 import * as rtnode from "../src/riotgamesapi-typenode";
+import * as fs from "fs";
 
 export class RiotTypenodeTests {   
     public static run() {
@@ -20,7 +23,9 @@ export class RiotTypenodeTests {
         describe('champion-v1.2', () => {
             describe('get all champions', () => {
                 it ("should return correctly", () => {
-                    var tn: rtnode.riotGamesTypeNode.RiotTypenode = new rtnode.riotGamesTypeNode.RiotTypenode("af6fde63-ed67-417f-8147-1d16984aecdf", "euw");
+                    var fileContent: any = fs.readFileSync("../key.json");
+                    var jsonContent = JSON.parse(fileContent);
+                    var tn: rtnode.riotGamesTypeNode.RiotTypenode = new rtnode.riotGamesTypeNode.RiotTypenode(jsonContent.value, jsonContent.server);
                     tn.getChampions("euw", true, (response) => {
                         var champList: riotGamesApi.champion.ChampionDto[] = response.champions;
                         for (var key in response.champions) {
