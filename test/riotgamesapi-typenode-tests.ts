@@ -12,7 +12,7 @@
 import * as chai from 'chai';
 import * as api from 'riotGamesApi';
 import * as rtnode from '../src/riotgamesapi-typenode';
-import * as fs from "fs";
+import * as fs from 'fs';
 
 export class RiotTypenodeTests {   
     public static run() {
