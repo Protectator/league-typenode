@@ -4,7 +4,7 @@
     Copyright (C) 2016 Kewin Dousse (Protectator)
 */
 
-///<reference path="../lib/riotgamesapi-typedef/riotgamesapi.d.ts" />
+///<reference path="../lib/riotgamesapi-typedef/riotgamesapi" />
 ///<reference path="../typings/node/node" />
 
 import * as http from "http";
@@ -24,7 +24,7 @@ export module riotGamesTypeNode {
         }
     }
 
-    export class RiotTypenode implements api.champion.Endpoints {
+    export class RiotTypenode implements api.champion.Operations {
         private static basePath: string = "/api/lol/";
         private hostname: string;
         public key: ApiKey;

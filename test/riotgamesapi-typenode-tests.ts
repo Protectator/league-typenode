@@ -9,11 +9,9 @@
 ///<reference path="../typings/mocha/mocha" />
 ///<reference path="../typings/chai/chai" />
 
-'use strict';
-
 import * as chai from 'chai';
 import * as api from 'riotGamesApi';
-import * as rtnode from "../src/riotgamesapi-typenode";
+import * as rtnode from '../src/riotgamesapi-typenode';
 import * as fs from "fs";
 
 export class RiotTypenodeTests {   
