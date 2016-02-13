@@ -28,3 +28,6 @@ node_modules
 
 # Compiled js files
 /build
+
+# Config file
+key.json
