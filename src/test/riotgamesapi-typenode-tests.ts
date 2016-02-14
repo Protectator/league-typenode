@@ -4,14 +4,9 @@
     Copyright (C) 2016 Kewin Dousse (Protectator)
 */
 
-///<reference path="../lib/riotgamesapi-typedef/riotgamesapi" />
-///<reference path="../src/riotgamesapi-typenode" />
-///<reference path="../typings/mocha/mocha" />
-///<reference path="../typings/chai/chai" />
-
 import * as chai from 'chai';
 import * as api from 'riotGamesApi';
-import * as rtnode from 'riotGamesTypeNode';
+import * as rtnode from '../riotgamesapi-typenode';
 import * as fs from 'fs';
 
 export class RiotTypenodeTests {   

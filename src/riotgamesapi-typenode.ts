@@ -4,14 +4,10 @@
     Copyright (C) 2016 Kewin Dousse (Protectator)
 */
 
-///<reference path="../lib/riotgamesapi-typedef/riotgamesapi" />
-///<reference path="../typings/node/node" />
-
 import * as http from "http";
 import * as url from "url";
 import * as api from "riotGamesApi";
 
-module riotGamesTypeNode {
     export class ApiKey {
         public value: string;
         public server: string;
@@ -71,4 +67,3 @@ module riotGamesTypeNode {
             req.end();
         }
     }
-}
