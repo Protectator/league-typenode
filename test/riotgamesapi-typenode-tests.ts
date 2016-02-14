@@ -11,7 +11,7 @@
 
 import * as chai from 'chai';
 import * as api from 'riotGamesApi';
-import * as rtnode from '../src/riotgamesapi-typenode';
+import * as rtnode from 'riotGamesTypeNode';
 import * as fs from 'fs';
 
 export class RiotTypenodeTests {   
@@ -23,7 +23,7 @@ export class RiotTypenodeTests {
                 it ("should return correctly", () => {
                     var fileContent: any = fs.readFileSync("../key.json");
                     var jsonContent = JSON.parse(fileContent);
-                    var tn: rtnode.riotGamesTypeNode.RiotTypenode = new rtnode.riotGamesTypeNode.RiotTypenode(jsonContent.value, jsonContent.server);
+                    var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(jsonContent.value, jsonContent.server);
                     tn.getChampions("euw", true, (response) => {
                         var champList: riotGamesApi.champion.ChampionDto[] = response.champions;
                         for (var key in response.champions) {

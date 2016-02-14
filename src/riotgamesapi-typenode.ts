@@ -11,7 +11,7 @@ import * as http from "http";
 import * as url from "url";
 import * as api from "riotGamesApi";
 
-export module riotGamesTypeNode {
+module riotGamesTypeNode {
     export class ApiKey {
         public value: string;
         public server: string;
@@ -72,5 +72,3 @@ export module riotGamesTypeNode {
         }
     }
 }
-
-export * from "./riotgamesapi-typenode";
