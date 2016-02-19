@@ -12,9 +12,30 @@ import * as fs from 'fs';
 export class RiotTypenodeTests {   
     public static run() {
         var assert: Chai.Assert = chai.assert;
-        var keyValue = process.env.RIOTTYPENODE_KEY;
-        console.log(keyValue);
-        var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, false);
+
+        var keyValue: string;
+        var keyTournaments: boolean;
+
+        try {
+            var fileContent: any = fs.readFileSync("key.json");
+            var jsonContent = JSON.parse(fileContent);
+            keyValue = jsonContent.value;
+            keyTournaments = jsonContent.tournaments;
+        } catch (e) {
+            if (e.code === 'ENOENT') {
+                keyValue = process.env.RIOTTYPENODE_KEY;
+                if (keyValue != "") {
+                    console.info("key.json file not found. Using environment variable RIOTTYPENODE_KEY.");
+                    keyTournaments = false;
+                } else {
+                    throw new Error("No valid API key found.");
+                }
+            } else {
+                throw new Error("No valid API key found.");
+            }
+        }
+
+        var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, keyTournaments);
 
         describe('champion-v1.2', () => {
 
