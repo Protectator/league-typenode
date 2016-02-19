@@ -13,21 +13,27 @@ export class RiotTypenodeTests {
     public static run() {
         var assert: Chai.Assert = chai.assert;
 
+        var fileContent: any = fs.readFileSync("key.json");
+        var jsonContent = JSON.parse(fileContent);
+        var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(jsonContent.value, jsonContent.server);
+
         describe('champion-v1.2', () => {
-            describe('get all champions', () => {
-                it ("should return correctly", () => {
-                    var fileContent: any = fs.readFileSync("../key.json");
-                    var jsonContent = JSON.parse(fileContent);
-                    var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(jsonContent.value, jsonContent.server);
-                    tn.getChampions("euw", true, (response) => {
-                        var champList: riotGamesApi.champion.ChampionDto[] = response.champions;
-                        for (var key in response.champions) {
-                           var champ = champList[key];
-                           console.log(champ.id);
-                        }
+
+            describe('getChampions()', () => {
+
+                it ("should return more than 100 values with no filter", (done) => {
+                    tn.getChampions("euw", false, (response) => {
+                        assert.isAbove(response.champions.length, 100);
+                        done();
                     });
-                    assert.equal(2+2, 4, "Test");
-                })
+                });
+
+                it ("should return 10 values with freeToPlay=true", (done) => {
+                    tn.getChampions("euw", true, (response) => {
+                        assert.equal(response.champions.length, 10);
+                        done();
+                    });
+                });
             });
         });
     }
