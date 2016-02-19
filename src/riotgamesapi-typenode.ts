@@ -32,9 +32,10 @@ export class RiotTypenode implements api.champion.Operations {
     }
 
     public getChampions(region:string, freeToPlay?:boolean, callback?:(data: api.champion.ChampionListDto)=>void): void {
-        var ftp = freeToPlay ? 'true' : 'false';
         var path = `/api/lol/${region}/v1.2/champion`;
-        var query = `?freeToPlay=${ftp}&api_key=${this.key.value}`;
+        var query = {
+            "freeToPlay" : freeToPlay
+        };
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (data:string) => {
             var typed: api.champion.ChampionListDto = <api.champion.ChampionListDto>JSON.parse(data);
@@ -43,7 +44,15 @@ export class RiotTypenode implements api.champion.Operations {
     }
 
     public getChampionById(region:string, id:number, callback?:(data:riotGamesApi.champion.ChampionDto)=>void):void {
-        // TODO
+        var path = `/api/lol/${region}/v1.2/champion/${id}`;
+        var query = {
+            "id" : id
+        };
+        var reqUrl = this.apiUrl(region, path, query);
+        this.apiCall(reqUrl, 'GET', '', (data:string) => {
+            var typed: api.champion.ChampionDto = <api.champion.ChampionDto>JSON.parse(data);
+            callback(typed);
+        })
     }
 
     private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(data:string)=>void) {
@@ -72,14 +81,22 @@ export class RiotTypenode implements api.champion.Operations {
         req.end();
     }
 
-    private apiUrl(region:string, path:string, query:string): url.Url {
+    private apiUrl(region:string, path:string, query:Object): url.Url {
+        var result = "";
+        query["api_key"] = this.key.value;
+        for (var key in query) {
+            if (result != "") {
+                result += "&";
+            }
+            result += key + "=" + encodeURIComponent(query[key]);
+        }
         return {
             protocol: this.baseConfig.protocol,
             slashes: this.baseConfig.slashes,
             hostname: `${region}.api.pvp.net`,
             port: this.baseConfig.port,
             pathname: path,
-            query: query
+            query: `?${result}`
         };
     }
 }

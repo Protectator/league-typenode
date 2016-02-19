@@ -19,7 +19,7 @@ export class RiotTypenodeTests {
 
         describe('champion-v1.2', () => {
 
-            describe('getChampions()', () => {
+            describe('getChampions', () => {
 
                 it ("should return more than 100 values with no filter", (done) => {
                     tn.getChampions("euw", false, (response) => {
@@ -27,13 +27,24 @@ export class RiotTypenodeTests {
                         done();
                     });
                 });
-
                 it ("should return 10 values with freeToPlay=true", (done) => {
                     tn.getChampions("euw", true, (response) => {
                         assert.equal(response.champions.length, 10);
                         done();
                     });
                 });
+
+            });
+
+            describe('getChampionById', () => {
+
+                it ("should return the champion 84", (done) => {
+                    tn.getChampionById("euw", 84, (response) => {
+                        assert.equal(response.id, 84);
+                        done();
+                    });
+                });
+
             });
         });
     }

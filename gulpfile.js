@@ -24,6 +24,6 @@ gulp.task('buildTest', function() {
     })).pipe(gulp.dest('build/test'));
 });
 
-gulp.task('test', ['buildTest'], function() {
+gulp.task('test', ['build'], function() {
    gulp.src('build/test/riotgamesapi-typenode-tests.js', {read: false}).pipe(mocha({})); 
 });
