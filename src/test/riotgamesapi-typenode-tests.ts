@@ -12,10 +12,9 @@ import * as fs from 'fs';
 export class RiotTypenodeTests {   
     public static run() {
         var assert: Chai.Assert = chai.assert;
-
-        var fileContent: any = fs.readFileSync("key.json");
-        var jsonContent = JSON.parse(fileContent);
-        var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(jsonContent.value, jsonContent.server);
+        var keyValue = process.env.RIOTTYPENODE_KEY;
+        console.log(keyValue);
+        var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, false);
 
         describe('champion-v1.2', () => {
 
@@ -38,7 +37,7 @@ export class RiotTypenodeTests {
 
             describe('getChampionById', () => {
 
-                it ("should return the champion 84", (done) => {
+                it ("should return the champion asked (84)", (done) => {
                     tn.getChampionById("euw", 84, (response) => {
                         assert.equal(response.id, 84);
                         done();

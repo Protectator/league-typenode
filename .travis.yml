@@ -1,9 +1,12 @@
 language: node_js
 node_js:
- - "0.12"
- - "0.11"
- - "0.10"
+- '0.12'
+- '0.11'
+- '0.10'
 install:
- - "npm install"
+- npm install
 script:
- - "gulp test"
+- gulp test
+env:
+  global:
+    secure: PM1+bBqre6VPgYDc6Oh8IT87xoq3TFkdyJzbr/Es8NK2gxJPteyUTQOVmM2vRUXm638iGCKzk5Gr4d1Iy+trqbthVDIcHayFcjmEceIpeDfs2nZmRpK50arDyqAB4vUJo8ZXe2rosTWvpjNapJGm+T2+aO6utk1NKAxCn3BHYzfkNbINtCT+Ug9Sg3nZCu87tjEzUXMojiTiqHh9ygmioBBI92DRQFmbekmcbn3xbPK6CT2kAunlpF89lc4ddNjOtWN2zVrfy1tV7fFrWna8n/LMbX0cxY0BA37K3TOBMzFDhjNTtUCVGosPcmzvEyTv6uHOy5tF9lSrqMrfqtxa5i1/J92gquLBZr+iNFEAgl8QjxCKg1DIoNhoDHoqeAvmpez530+eIkB/fNBntQ+OlYzpMWGBl/c1YrG1APWpw4qM/eq/Z7v9dOAXC5A3ZbxLXAcTKF7lX1VKqobSyv5mgcYNIsg0fSlYTAzJfNenMSINNuUChIYV1frxWDOWZazSAl4XVroJGJPv6KK+IK6yDNPtHBTsTZQZpUcpDdIxyYsz08catW9OpGxloUUlY0Mse8HSic9nYy3mLH3EcD+jMquSPPu3YoLeQOtsfTjF2dL1g9setiT0mZfjZBz/+mScEm8wSXVnxLJVFKDCJrTXZkaSaYPdVBkQTc1vGeKhiF8=
