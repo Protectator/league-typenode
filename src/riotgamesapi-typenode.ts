@@ -24,6 +24,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     api.stats.Operations, api.summoner.Operations, api.team.Operations, api.tournamentProvider.Operations {
 
     public  key: ApiKey;
+
     private baseConfig: url.Url;
 
     constructor(keyValue:string, tournamentsAccess:boolean = false) {
@@ -37,7 +38,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
 
     // champion
 
-    public getChampions(region:string, freeToPlay?:boolean, callback?:(data: api.champion.ChampionListDto)=>void): void {
+    public getChampionsStatus(region:string, freeToPlay?:boolean, callback?:(data: api.champion.ChampionListDto)=>void): void {
         var path = `/api/lol/${region}/v1.2/champion`;
         var query = {
             "freeToPlay" : freeToPlay
@@ -46,7 +47,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.champion.ChampionListDto>JSON.parse(data)));
     }
 
-    public getChampionById(region:string, id:number, callback?:(data:api.champion.ChampionDto)=>void):void {
+    public getChampionStatusById(region:string, id:number, callback?:(data:api.champion.ChampionDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion/${id}`;
         var query = {
             "id" : id
@@ -252,7 +253,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var query = {
             "locale" : locale,
             "version" : version,
-            "masteryData", masteryData
+            "masteryData" : masteryData
         };
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.MasteryDto>JSON.parse(data)));

@@ -42,13 +42,13 @@ export class RiotTypenodeTests {
             describe('getChampions', () => {
 
                 it ("should return more than 100 values with no filter", (done) => {
-                    tn.getChampions("euw", false, (response) => {
+                    tn.getChampionsStatus("euw", false, (response) => {
                         assert.isAbove(response.champions.length, 100);
                         done();
                     });
                 });
                 it ("should return 10 values with freeToPlay=true", (done) => {
-                    tn.getChampions("euw", true, (response) => {
+                    tn.getChampionsStatus("euw", true, (response) => {
                         assert.equal(response.champions.length, 10);
                         done();
                     });
@@ -59,7 +59,7 @@ export class RiotTypenodeTests {
             describe('getChampionById', () => {
 
                 it ("should return the champion asked (84)", (done) => {
-                    tn.getChampionById("euw", 84, (response) => {
+                    tn.getChampionStatusById("euw", 84, (response) => {
                         assert.equal(response.id, 84);
                         done();
                     });
