@@ -39,7 +39,7 @@ export class RiotTypenodeTests {
 
         describe('champion-v1.2', () => {
 
-            describe('getChampions', () => {
+            describe('getChampionsStatus', () => {
 
                 it ("should return more than 100 values with no filter", (done) => {
                     tn.getChampionsStatus("euw", false, (response) => {
@@ -56,7 +56,7 @@ export class RiotTypenodeTests {
 
             });
 
-            describe('getChampionById', () => {
+            describe('getChampionStatusById', () => {
 
                 it ("should return the champion asked (84)", (done) => {
                     tn.getChampionStatusById("euw", 84, (response) => {
@@ -66,6 +66,358 @@ export class RiotTypenodeTests {
                 });
 
             });
+        });
+
+        describe('championmastery', () => {
+
+            describe('getChampionMastery', () => {
+
+                it ("should");
+
+            });
+
+            describe('getChampionsMastery', () => {
+
+                it ("should");
+
+            });
+
+            describe('getScore', () => {
+
+                it ("should");
+
+            });
+
+            describe('getTopChampions', () => {
+
+                it ("should");
+
+            });
+            
+        });
+
+        describe('current-game', () => {
+
+            describe('getSpectatorGameInfoBySummonerId', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('featured-games', () => {
+
+            describe('getFeaturedGames', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('game', () => {
+
+            describe('getRecentGamesBySummonerId', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('league', () => {
+
+            describe('getLeagueBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLeagueEntryBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLeagueByTeamIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLeagueEntryByTeamIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLeagueChallenger', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLeagueMaster', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('lol-static-data', () => {
+
+            describe('getChampions', () => {
+
+                it ("should");
+
+            });
+
+            describe('getChampionById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getItems', () => {
+
+                it ("should");
+
+            });
+
+            describe('getItemById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLanguageStrings', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLanguages', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMaps', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMeasteries', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMasteryById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getRealm', () => {
+
+                it ("should");
+
+            });
+
+            describe('getRunes', () => {
+
+                it ("should");
+
+            });
+
+            describe('getRuneById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getSummonerSpells', () => {
+
+                it ("should");
+
+            });
+
+            describe('getSummonerSpellById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getVersions', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('lol-status', () => {
+
+            describe('getShards', () => {
+
+                it ("should");
+
+            });
+
+            describe('getShard', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('match', () => {
+
+            describe('getMatchIdsByTournamentCode', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMatchByIdAndTournamentCode', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMatchById', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('matchlist', () => {
+
+            describe('getMatchesBySummonerId', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('stats', () => {
+
+            describe('getRankedBySummonerId', () => {
+
+                it ("should");
+
+            });
+
+            describe('getSummaryBySummonerId', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('summoner', () => {
+
+            describe('getSummonerByNames', () => {
+
+                it ("should");
+
+            });
+
+            describe('getSummonerByIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getMasteryPagesBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getNameBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getRunePagesBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('team', () => {
+
+            describe('getTeamsBySummonerIds', () => {
+
+                it ("should");
+
+            });
+
+            describe('getTeamsByTeamIds', () => {
+
+                it ("should");
+
+            });
+
+        });
+
+        describe('tournament-provider', () => {
+            before(function() {
+                if (!tn.key.tournaments) {
+                    console.info("Skipping 'tournament-provider' tests : No compatible key found");
+                    this.skip();
+                }
+            });
+
+            describe('createTournamentCodesById', () => {
+
+                it ("should");
+
+            });
+
+            describe('getTournamentByCode', () => {
+
+                it ("should");
+
+            });
+
+            describe('updateTournamentByCode', () => {
+
+                it ("should");
+
+            });
+
+            describe('getLobbyEventsByTournamentCode', () => {
+
+                it ("should");
+
+            });
+
+            describe('createTournamentProvider', () => {
+
+                it ("should");
+
+            });
+
+            describe('createTournament', () => {
+
+                it ("should");
+
+            });
+
         });
     }
 }

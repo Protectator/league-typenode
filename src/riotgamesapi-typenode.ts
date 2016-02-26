@@ -7,6 +7,7 @@
 import * as https from 'https';
 import * as url from 'url';
 import * as api from 'riotGamesApi';
+import * as fs from 'fs';
 
 export class ApiKey {
     public value: string;
@@ -31,8 +32,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         this.key = new ApiKey(keyValue, tournamentsAccess);
         this.baseConfig = {
             protocol: 'https',
-            slashes: true,
-            port: '80'
+            slashes: true
         };
     }
 
@@ -507,6 +507,8 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         this.apiCall(reqUrl, 'POST', '', (data:string) => callback(<number>JSON.parse(data)));
     }
 
+    // Private methods
+
     private apiUrl(region:string, path:string, query:Object): url.Url {
         var result = "";
         query["api_key"] = this.key.value;
@@ -551,4 +553,12 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         req.write(content);
         req.end();
     }
+
+    private keyFromFile(fileName: string): ApiKey {
+        var fileContent: any = fs.readFileSync(fileName);
+        var jsonContent = JSON.parse(fileContent);
+        return new ApiKey(jsonContent.value, jsonContent.tournaments);
+    }
+
+    private keyFromEnv
 }
