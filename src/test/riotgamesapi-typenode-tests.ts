@@ -72,7 +72,13 @@ export class RiotTypenodeTests {
 
             describe('getChampionMastery', () => {
 
-                it ("should");
+                it ("should return a valid answer", (done) => {
+                    tn.getChampionMastery("euw", 25517257, 84, (response) => {
+                        console.log(response);
+                        console.log(response.playerId);
+                        done();
+                    })
+                });
 
             });
 

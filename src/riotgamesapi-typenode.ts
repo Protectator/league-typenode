@@ -17,6 +17,34 @@ export class ApiKey {
         this.value = value;
         this.tournaments = tournamentsAccess;
     }
+
+    public static fromFile(fileName: string): ApiKey {
+        var fileContent: any = fs.readFileSync(fileName);
+        var jsonContent = JSON.parse(fileContent);
+        return new ApiKey(jsonContent.value, jsonContent.tournaments);
+    }
+
+    public static fromEnv(variableName: string, tournaments: boolean): ApiKey {
+        var value: string;
+        value = process.env[variableName];
+        return new ApiKey(value, tournaments);
+    }
+}
+
+export class ApiError implements Error {
+    name:string;
+    message:string;
+    private code: number;
+
+    constructor(code: number, message: string) {
+        this.code = code;
+        this.name = "ApiError";
+        this.message = message;
+    }
+
+    getCode(): number {
+        return this.code;
+    }
 }
 
 export class RiotTypenode implements api.champion.Operations, api.championmastery.Operations,
@@ -28,12 +56,25 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
 
     private baseConfig: url.Url;
 
-    constructor(keyValue:string, tournamentsAccess:boolean = false) {
-        this.key = new ApiKey(keyValue, tournamentsAccess);
-        this.baseConfig = {
-            protocol: 'https',
-            slashes: true
-        };
+    /**
+     * Instanciates a RiotTypenode object using a key value
+     *
+     * @param keyValue The API's key value, or ApiKey
+     * @param tournamentsAccess true if the key can access tournaments endpoints
+     */
+    constructor(keyValue:string|ApiKey, tournamentsAccess:boolean = false) {
+        if (keyValue instanceof ApiKey) {
+            this.key = keyValue;
+            return;
+        } else if (typeof keyValue === "string") {
+            this.key = new ApiKey(keyValue, tournamentsAccess);
+            this.baseConfig = {
+                protocol: 'https',
+                slashes: true
+            };
+        } else {
+            throw new Error("keyValue must be either a string or an ApiKey.");
+        }
     }
 
     // champion
@@ -44,7 +85,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "freeToPlay" : freeToPlay
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.champion.ChampionListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.champion.ChampionListDto>data);
+        });
     }
 
     public getChampionStatusById(region:string, id:number, callback?:(data:api.champion.ChampionDto)=>void):void {
@@ -53,7 +97,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "id" : id
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.champion.ChampionDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.champion.ChampionDto>data);
+        });
     }
 
     // championmastery
@@ -62,21 +109,30 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
         var reqUrl = this.apiUrl(platformId, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.championmastery.ChampionMasteryDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.championmastery.ChampionMasteryDto>data);
+        });
     }
 
     public getChampionsMastery(platformId:string, playerId:number, callback?:(data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champions`;
         var query = {};
         var reqUrl = this.apiUrl(platformId, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.championmastery.ChampionMasteryDto[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.championmastery.ChampionMasteryDto[]>data);
+        });
     }
 
     public getScore(platformId:string, playerId:number, callback?:(data:number)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/score`;
         var query = {};
         var reqUrl = this.apiUrl(platformId, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<number>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<number>data);
+        });
     }
 
     public getTopChampions(platformId:string, playerId:number, count:number, callback?:(data:api.championmastery.ChampionMasteryDto[])=>void):void {
@@ -85,7 +141,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "count" : count
         };
         var reqUrl = this.apiUrl(platformId, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.championmastery.ChampionMasteryDto[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.championmastery.ChampionMasteryDto[]>data);
+        });
     }
 
     // current-game
@@ -94,7 +153,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/observer-mode/rest/consumer/getSpectatorGameInfo/${platformId}/${summonerId}`;
         var query = {};
         var reqUrl = this.apiUrl(platformId, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.currentGame.CurrentGameInfo>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.currentGame.CurrentGameInfo>data);
+        });
     }
 
     // featured-games
@@ -103,7 +165,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/observer-mode/rest/featured`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.featuredGames.FeaturedGames>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.featuredGames.FeaturedGames>data);
+        });
     }
 
     // game
@@ -112,7 +177,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/api/lol/${region}/v1.3/game/by-summoner/${summonerId}/recent`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.game.RecentGamesDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.game.RecentGamesDto>data);
+        });
     }
 
     // league
@@ -121,28 +189,40 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.league.LeagueDto[]}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.league.LeagueDto[]}>data);
+        });
     }
 
     public getLeagueEntryBySummonerIds(region:string, summonerIds:string, callback?:(data:{[s: string]: api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.league.LeagueDto[]}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.league.LeagueDto[]}>data);
+        });
     }
 
     public getLeagueByTeamIds(region:string, teamIds:string, callback?:(data:{[s: string]: api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.league.LeagueDto[]}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.league.LeagueDto[]}>data);
+        });
     }
 
     public getLeagueEntryByTeamIds(region:string, teamIds:string, callback?:(data:{[s: string]: api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.league.LeagueDto[]}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.league.LeagueDto[]}>data);
+        });
     }
 
     public getLeagueChallenger(region:string, type:string, callback?:(data:api.league.LeagueDto)=>void):void {
@@ -151,7 +231,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "type" : type
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.league.LeagueDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.league.LeagueDto>data);
+        });
     }
 
     public getLeagueMaster(region:string, type:string, callback?:(data:api.league.LeagueDto)=>void):void {
@@ -160,7 +243,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "type" : type
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.league.LeagueDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.league.LeagueDto>data);
+        });
     }
 
     // lol-static-data
@@ -174,7 +260,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "champData" : champData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.ChampionListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.ChampionListDto>data);
+        });
     }
 
     public getChampionById(region:string, id:number, locale:string, version:string, champData:string, callback?:(data:api.lolStaticData.ChampionDto)=>void):void {
@@ -185,7 +274,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "champData" : champData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.ChampionDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.ChampionDto>data);
+        });
     }
 
     public getItems(region:string, locale:string, version:string, itemListData:string, callback?:(data:api.lolStaticData.ItemListDto)=>void):void {
@@ -196,7 +288,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "itemListData" : itemListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.ItemListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.ItemListDto>data);
+        });
     }
 
     public getItemById(region:string, id:number, locale:string, version:string, itemData:string, callback?:(data:api.lolStaticData.ItemDto)=>void):void {
@@ -207,7 +302,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "itemData" : itemData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.ItemDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.ItemDto>data);
+        });
     }
 
     public getLanguageStrings(region:string, locale:string, version:string, callback?:(data:api.lolStaticData.LanguageStringsDto)=>void):void {
@@ -217,14 +315,20 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "version" : version
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.LanguageStringsDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.LanguageStringsDto>data);
+        });
     }
 
     public getLanguages(region:string, callback?:(data:string[])=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/languages`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<string[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<string[]>data);
+        });
     }
 
     public getMaps(region:string, locale:string, version:string, callback?:(data:api.lolStaticData.MapDataDto)=>void):void {
@@ -234,7 +338,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "version" : version
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.MapDataDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.MapDataDto>data);
+        });
     }
 
     public getMasteries(region:string, locale:string, version:string, masteryListData:string, callback?:(data:api.lolStaticData.MasteryListDto)=>void):void {
@@ -245,7 +352,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "masteryListData" : masteryListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.MasteryListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.MasteryListDto>data);
+        });
     }
 
     public getMasteryById(region:string, id:number, locale:string, version:string, masteryData:string, callback?:(data:api.lolStaticData.MasteryDto)=>void):void {
@@ -256,14 +366,20 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "masteryData" : masteryData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.MasteryDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.MasteryDto>data);
+        });
     }
 
     public getRealm(region:string, callback?:(data:api.lolStaticData.RealmDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/realm`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.RealmDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.RealmDto>data);
+        });
     }
 
     public getRunes(region:string, locale:string, version:string, runeListData:string, callback?:(data:api.lolStaticData.RuneListDto)=>void):void {
@@ -274,7 +390,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "runeListData" : runeListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.RuneListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.RuneListDto>data);
+        });
     }
 
     public getRuneById(region:string, id:number, locale:string, version:string, runeData:string, callback?:(data:api.lolStaticData.RuneDto)=>void):void {
@@ -285,7 +404,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "runeData" : runeData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.RuneDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.RuneDto>data);
+        });
     }
 
     public getSummonerSpells(region:string, locale:string, version:string, dataById:boolean, spellData:string, callback?:(data:api.lolStaticData.SummonerSpellListDto)=>void):void {
@@ -297,7 +419,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "spellData" : spellData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.SummonerSpellListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.SummonerSpellListDto>data);
+        });
     }
 
     public getSummonerSpellById(region:string, id:number, locale:string, version:string, spellData:string, callback?:(data:api.lolStaticData.SummonerSpellDto)=>void):void {
@@ -308,14 +433,20 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "spellData" : spellData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStaticData.SummonerSpellDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStaticData.SummonerSpellDto>data);
+        });
     }
 
     public getVersions(region:string, callback?:(data:string[])=>void):void {
         var path = ``;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<string[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<string[]>data);
+        });
     }
 
     // lol-status
@@ -328,7 +459,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             port: this.baseConfig.port,
             pathname: `/shards`
         };
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStatus.Shard[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStatus.Shard[]>data);
+        });
     }
 
     public getShard(region:string, callback?:(data:api.lolStatus.ShardStatus)=>void):void {
@@ -339,7 +473,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             port: this.baseConfig.port,
             pathname: `/shards/${region}`
         };
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.lolStatus.ShardStatus>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.lolStatus.ShardStatus>data);
+        });
     }
 
     // match
@@ -348,7 +485,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/api/lol/${region}/v2.2/match/by-tournament/${tournamentCode}/ids`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<number[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<number[]>data);
+        });
     }
 
     public getMatchByIdAndTournamentCode(region:string, matchId:number, tournamentCode:string, includeTimeline:boolean, callback?:(data:api.match.MatchDetail)=>void):void {
@@ -358,7 +498,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "includeTimeline" : includeTimeline
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.match.MatchDetail>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.match.MatchDetail>data);
+        });
     }
 
     public getMatchById(region:string, matchId:number, includeTimeline:boolean, callback?:(data:api.match.MatchDetail)=>void):void {
@@ -367,7 +510,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "includeTimeline" : includeTimeline
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.match.MatchDetail>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.match.MatchDetail>data);
+        });
     }
 
     // matchlist
@@ -384,7 +530,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "endIndex" : endIndex
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.matchlist.MatchList>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.matchlist.MatchList>data);
+        });
     }
 
     // stats
@@ -395,7 +544,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "season" : season
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.stats.RankedStatsDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.stats.RankedStatsDto>data);
+        });
     }
 
     public getSummaryBySummonerId(region:string, summonerId:number, season:string, callback?:(data:api.stats.PlayerStatsSummaryListDto)=>void):void {
@@ -404,7 +556,10 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "season" : season
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.stats.PlayerStatsSummaryListDto>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.stats.PlayerStatsSummaryListDto>data);
+        });
     }
 
     // summoner
@@ -413,35 +568,50 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/api/lol/${region}/v1.4/summoner/by-name/${summonerNames}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.summoner.SummonerDto}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.summoner.SummonerDto}>data);
+        });
     }
 
     public getSummonerByIds(region:string, summonerIds:string, callback?:(data:{[s: string]: api.summoner.SummonerDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.summoner.SummonerDto}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.summoner.SummonerDto}>data);
+        });
     }
 
     public getMasteryPagesBySummonerIds(region:string, summonerIds:string, callback?:(data:{[s: string]: api.summoner.MasteryPagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/masteries`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.summoner.MasteryPagesDto}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.summoner.MasteryPagesDto}>data);
+        });
     }
 
     public getNameBySummonerIds(region:string, summonerIds:string, callback?:(data:{[s: string]: string})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/name`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: string}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: string}>data);
+        });
     }
 
     public getRunePagesBySummonerIds(region:string, summonerIds:string, callback?:(data:{[s: string]: api.summoner.RunePagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/runes`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.summoner.RunePagesDto}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.summoner.RunePagesDto}>data);
+        });
     }
 
     // team
@@ -450,14 +620,20 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/api/lol/${region}/v2.4/team/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.team.TeamDto[]}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.team.TeamDto[]}>data);
+        });
     }
 
     public getTeamsByTeamIds(region:string, teamIds:string, callback?:(data:{[s: string]: api.team.TeamDto})=>void):void {
         var path = `/api/lol/${region}/v2.4/team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<{[s: string]: api.team.TeamDto}>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<{[s: string]: api.team.TeamDto}>data);
+        });
     }
 
     // tournament-provider
@@ -469,42 +645,60 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             "count" : count
         };
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', JSON.stringify(body), (data:string) => callback(<string[]>JSON.parse(data)));
+        this.apiCall(reqUrl, 'POST', JSON.stringify(body), (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<string[]>data);
+        });
     }
 
     public getTournamentByCode(tournamentCode:string, callback?:(data:api.tournamentProvider.TournamentCodeDTO)=>void):void {
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.tournamentProvider.TournamentCodeDTO>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.tournamentProvider.TournamentCodeDTO>data);
+        });
     }
 
     public updateTournamentByCode(tournamentCode:string, body:api.tournamentProvider.TournamentCodeUpdateParameters, callback?:(data:void)=>void):void {
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'PUT', '', (data:string) => callback(<void>JSON.parse(data)));
+        this.apiCall(reqUrl, 'PUT', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<void>data);
+        });
     }
 
     public getLobbyEventsByTournamentCode(tournamentCode:string, callback?:(data:api.tournamentProvider.LobbyEventDTOWrapper)=>void):void {
         var path = `/tournament/public/v1/lobby/events/by-code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'GET', '', (data:string) => callback(<api.tournamentProvider.LobbyEventDTOWrapper>JSON.parse(data)));
+        this.apiCall(reqUrl, 'GET', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<api.tournamentProvider.LobbyEventDTOWrapper>data);
+        });
     }
 
     public createTournamentProvider(body:api.tournamentProvider.ProviderRegistrationParameters, callback?:(data:number)=>void):void {
         var path = `/tournament/public/v1/provider`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', '', (data:string) => callback(<number>JSON.parse(data)));
+        this.apiCall(reqUrl, 'POST', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<number>data);
+        });
     }
 
     public createTournament(body:api.tournamentProvider.TournamentRegistrationParameters, callback?:(data:number)=>void):void {
         var path = `/tournament/public/v1/tournament`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', '', (data:string) => callback(<number>JSON.parse(data)));
+        this.apiCall(reqUrl, 'POST', '', (json:string) => {
+            var data = RiotTypenode.errorCheck(json);
+            callback(<number>data);
+        });
     }
 
     // Private methods
@@ -554,11 +748,11 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         req.end();
     }
 
-    private keyFromFile(fileName: string): ApiKey {
-        var fileContent: any = fs.readFileSync(fileName);
-        var jsonContent = JSON.parse(fileContent);
-        return new ApiKey(jsonContent.value, jsonContent.tournaments);
+    private static errorCheck(json: string) {
+        var data = JSON.parse(json);
+        if (data.status && data.status.status_code !== 200) {
+            throw new ApiError(data.status.status_code, `Server responded with error ${data.status.status_code} : "${data.status.message}"`);
+        }
+        return data;
     }
-
-    private keyFromEnv
 }
