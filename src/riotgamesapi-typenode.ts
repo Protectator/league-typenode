@@ -55,6 +55,19 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public  key: ApiKey;
 
     private baseConfig: url.Url;
+    private static platformRegion = {
+        'BR1':  'br',
+        'EUN1': 'eune',
+        'EUW1': 'euw',
+        'KR':   'kr',
+        'LA1':  'lan',
+        'LA2':  'las',
+        'NA1':  'na',
+        'OC1':  'oce',
+        'TR1':  'tr',
+        'RU':   'ru',
+        'PBE1': 'pbe'
+    };
 
     /**
      * Instanciates a RiotTypenode object using a key value
@@ -108,7 +121,8 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getChampionMastery(platformId:string, playerId:number, championId:number, callback?:(data:api.championmastery.ChampionMasteryDto)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
-        var reqUrl = this.apiUrl(platformId, path, query);
+        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        console.log(url.format(reqUrl));
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<api.championmastery.ChampionMasteryDto>data);
@@ -728,7 +742,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
             path: reqUrl.pathname + reqUrl.query,
             method: method,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json; charset=UTF-8',
                 'Content-Length': content.length
             }
         };
