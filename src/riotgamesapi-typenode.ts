@@ -122,7 +122,6 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
         var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
-        console.log(url.format(reqUrl));
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<api.championmastery.ChampionMasteryDto>data);
@@ -132,7 +131,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getChampionsMastery(platformId:string, playerId:number, callback?:(data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champions`;
         var query = {};
-        var reqUrl = this.apiUrl(platformId, path, query);
+        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<api.championmastery.ChampionMasteryDto[]>data);
@@ -142,7 +141,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getScore(platformId:string, playerId:number, callback?:(data:number)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/score`;
         var query = {};
-        var reqUrl = this.apiUrl(platformId, path, query);
+        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<number>data);
@@ -154,7 +153,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var query = {
             "count" : count
         };
-        var reqUrl = this.apiUrl(platformId, path, query);
+        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<api.championmastery.ChampionMasteryDto[]>data);
@@ -166,7 +165,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getSpectatorGameInfoBySummonerId(platformId:string, summonerId:number, callback?:(data:api.currentGame.CurrentGameInfo)=>void):void {
         var path = `/observer-mode/rest/consumer/getSpectatorGameInfo/${platformId}/${summonerId}`;
         var query = {};
-        var reqUrl = this.apiUrl(platformId, path, query);
+        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (json:string) => {
             var data = RiotTypenode.errorCheck(json);
             callback(<api.currentGame.CurrentGameInfo>data);

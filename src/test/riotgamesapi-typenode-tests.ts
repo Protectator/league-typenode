@@ -37,19 +37,21 @@ export class RiotTypenodeTests {
 
         var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, keyTournaments);
 
-        describe('champion-v1.2', () => {
+        describe('champion-v1.2', function() {
+
+            this.slow(200);
 
             describe('getChampionsStatus', () => {
 
                 it ("should return more than 100 values with no filter", (done) => {
                     tn.getChampionsStatus("euw", false, (response) => {
-                        assert.isAbove(response.champions.length, 100);
+                        assert.isAtLeast(response.champions.length, 100, "number of champions");
                         done();
                     });
                 });
-                it ("should return 10 values with freeToPlay=true", (done) => {
+                it ("should return at least 10 values with freeToPlay=true", (done) => {
                     tn.getChampionsStatus("euw", true, (response) => {
-                        assert.equal(response.champions.length, 10);
+                        assert.isAtLeast(response.champions.length, 10, "number of free champions");
                         done();
                     });
                 });
@@ -60,7 +62,7 @@ export class RiotTypenodeTests {
 
                 it ("should return the champion asked (84)", (done) => {
                     tn.getChampionStatusById("euw", 84, (response) => {
-                        assert.equal(response.id, 84);
+                        assert.equal(response.id, 84, "id of champion asked");
                         done();
                     });
                 });
@@ -68,14 +70,15 @@ export class RiotTypenodeTests {
             });
         });
 
-        describe('championmastery', () => {
+        describe('championmastery', function() {
 
             describe('getChampionMastery', () => {
 
-                it ("should return a valid answer", (done) => {
+                it ("should return a valid answer with a positive number of championPoints", (done) => {
                     tn.getChampionMastery("EUW1", 25517257, 84, (response) => {
-                        console.log(response);
-                        console.log(response.playerId);
+                        assert.equal(response.playerId, 25517257, "player id");
+                        assert.equal(response.championId, 84, "champion id");
+                        assert.isAtLeast(response.championPoints, 0, "champion points");
                         done();
                     })
                 });
@@ -84,25 +87,42 @@ export class RiotTypenodeTests {
 
             describe('getChampionsMastery', () => {
 
-                it ("should");
+                it ("should be a list", (done) => {
+                    tn.getChampionsMastery("EUW1", 255171257, (response) => {
+                        assert.isArray(response, "response is an array");
+                        done();
+                    })
+                });
 
             });
 
             describe('getScore', () => {
 
-                it ("should");
+                it ("should be a positive number", (done) => {
+                    tn.getScore("EUW1", 255171257, (response) => {
+                        assert.isAtLeast(response, 0, "total score");
+                        done();
+                    })
+                });
 
             });
 
             describe('getTopChampions', () => {
 
-                it ("should");
+                it ("should be a list", (done) => {
+                    tn.getTopChampions("EUW1", 255171257, 3, (response) => {
+                        assert.isArray(response, "response in an array");
+                        done();
+                    })
+                });
 
             });
             
         });
 
-        describe('current-game', () => {
+        describe('current-game', function() {
+
+            this.slow(200);
 
             describe('getSpectatorGameInfoBySummonerId', () => {
 
@@ -112,7 +132,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('featured-games', () => {
+        describe('featured-games', function() {
+
+            this.slow(200);
 
             describe('getFeaturedGames', () => {
 
@@ -122,7 +144,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('game', () => {
+        describe('game', function() {
+
+            this.slow(200);
 
             describe('getRecentGamesBySummonerId', () => {
 
@@ -132,7 +156,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('league', () => {
+        describe('league', function() {
+
+            this.slow(200);
 
             describe('getLeagueBySummonerIds', () => {
 
@@ -172,7 +198,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('lol-static-data', () => {
+        describe('lol-static-data', function() {
+
+            this.slow(200);
 
             describe('getChampions', () => {
 
@@ -266,7 +294,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('lol-status', () => {
+        describe('lol-status', function() {
+
+            this.slow(200);
 
             describe('getShards', () => {
 
@@ -282,7 +312,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('match', () => {
+        describe('match', function() {
+
+            this.slow(200);
 
             describe('getMatchIdsByTournamentCode', () => {
 
@@ -304,7 +336,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('matchlist', () => {
+        describe('matchlist', function() {
+
+            this.slow(200);
 
             describe('getMatchesBySummonerId', () => {
 
@@ -314,7 +348,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('stats', () => {
+        describe('stats', function() {
+
+            this.slow(200);
 
             describe('getRankedBySummonerId', () => {
 
@@ -330,7 +366,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('summoner', () => {
+        describe('summoner', function() {
+
+            this.slow(200);
 
             describe('getSummonerByNames', () => {
 
@@ -364,7 +402,9 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('team', () => {
+        describe('team', function() {
+
+            this.slow(200);
 
             describe('getTeamsBySummonerIds', () => {
 
@@ -380,13 +420,16 @@ export class RiotTypenodeTests {
 
         });
 
-        describe('tournament-provider', () => {
+        describe('tournament-provider', function() {
+
             before(function() {
                 if (!tn.key.tournaments) {
                     console.info("Skipping 'tournament-provider' tests : No compatible key found");
                     this.skip();
                 }
             });
+
+            this.slow(200);
 
             describe('createTournamentCodesById', () => {
 
