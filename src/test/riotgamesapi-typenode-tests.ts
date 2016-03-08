@@ -37,6 +37,7 @@ export class RiotTypenodeTests {
         }
 
         var tn:rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, keyTournaments);
+        var playerId = 20717177;
 
         describe('champion-v1.2', function () {
 
@@ -49,6 +50,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.isAtLeast(response.champions.length, 100, "number of champions");
                             done();
+                        } else {
+                            throw error;
                         }
                     });
                 });
@@ -57,6 +60,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.isAtLeast(response.champions.length, 10, "number of free champions");
                             done();
+                        } else {
+                            throw error;
                         }
                     });
                 });
@@ -70,6 +75,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.equal(response.id, 84, "id of champion asked");
                             done();
+                        } else {
+                            throw error;
                         }
                     });
                 });
@@ -88,6 +95,8 @@ export class RiotTypenodeTests {
                             assert.equal(response.championId, 84, "champion id");
                             assert.isAtLeast(response.championPoints, 0, "champion points");
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
@@ -101,6 +110,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.isArray(response, "response is an array");
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
@@ -114,6 +125,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.isAtLeast(response, 0, "total score");
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
@@ -127,6 +140,8 @@ export class RiotTypenodeTests {
                         if (!error) {
                             assert.isArray(response, "response in an array");
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
@@ -160,6 +175,8 @@ export class RiotTypenodeTests {
                             assert.isAbove(response.gameList.length, 1, "game list length");
                             assert.isAbove(response.gameList[0].gameId, 0, "first game's id");
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
@@ -197,15 +214,14 @@ export class RiotTypenodeTests {
 
             describe('getLeagueBySummonerIds', () => {
 
-                it("should find a league or a 404 error", (done) => {
-                    tn.getLeagueBySummonerIds("euw", '255171257', (error, response) => {
-                        console.log(error);
+                it("should find a league", (done) => {
+                    tn.getLeagueBySummonerIds("euw", `${playerId}`, (error, response) => {
                         if (!error) {
-                            assert.isBoolean(response['255171257'][0].entries[0].isInactive);
+                            assert.isBoolean(response[`${playerId}`][0].entries[0].isInactive);
+                            assert.equal(response[`${playerId}`][0].participantId, playerId);
                             done();
                         } else {
-                            assert.equal((<ApiError>error).code, 404, "Error code is 404");
-                            done();
+                            throw error;
                         }
                     })
                 });
@@ -215,10 +231,13 @@ export class RiotTypenodeTests {
             describe('getLeagueEntryBySummonerIds', () => {
 
                 it("should", (done) => {
-                    tn.getLeagueEntryBySummonerIds("euw", '255171257', (error, response) => {
+                    tn.getLeagueEntryBySummonerIds("euw", `${playerId}`, (error, response) => {
                         if (!error) {
-                            // TODO
+                            assert.isBoolean(response[`${playerId}`][0].entries[0].isInactive);
+                            assert.equal(response[`${playerId}`][0].participantId, playerId);
                             done();
+                        } else {
+                            throw error;
                         }
                     })
                 });
