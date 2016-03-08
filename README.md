@@ -16,10 +16,10 @@ Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Lege
 
 ```typescript
 // Import the wrapper
-import * as rtnode from 'league-typenode';
+import * as leaguetn from 'league-typenode';
 
 // Instanciate it
-var tn: rtnode.RiotTypenode = new rtnode.LeagueTypenode('your-api-key', false);
+var tn: leaguetn.LeagueTypenode = new leaguetn.LeagueTypenode('your-api-key', false);
 
 // Use it with callbacks
 tn.getSummonerByNames("euw", "Protectator", (summoners) => {
