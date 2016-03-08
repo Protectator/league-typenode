@@ -1,7 +1,7 @@
-# riotgamesapi-typenode
-[![Build Status](https://travis-ci.org/Protectator/riotgamesapi-typenode.svg?branch=master)](https://travis-ci.org/Protectator/riotgamesapi-typenode)
+# league-typenode
+[![Build Status](https://travis-ci.org/Protectator/league-typenode.svg?branch=master)](https://travis-ci.org/Protectator/league-typenode)
 
-Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Legends API](https://developer.riotgames.com/api/methods) using [riotgamesapi-typedef](https://github.com/Protectator/riotgamesapi-typedef) definitions.
+Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Legends API](https://developer.riotgames.com/api/methods) using [league-typedef](https://github.com/Protectator/league-typedef) definitions.
 
 ## Installing
 
@@ -16,10 +16,10 @@ Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Lege
 
 ```typescript
 // Import the wrapper
-import * as rtnode from 'riotgamesapi-typenode';
+import * as rtnode from 'league-typenode';
 
 // Instanciate it
-var tn: rtnode.RiotTypenode = new rtnode.RiotTypenode('your-api-key', false);
+var tn: rtnode.RiotTypenode = new rtnode.LeagueTypenode('your-api-key', false);
 
 // Use it with callbacks
 tn.getSummonerByNames("euw", "Protectator", (summoners) => {
@@ -34,4 +34,4 @@ tn.getSummonerByNames("euw", "Protectator", (summoners) => {
 
 ## License
 
-riotgamesapi-typenode is distributed under [The MIT License](http://opensource.org/licenses/MIT).
+league-typenode is distributed under [The MIT License](http://opensource.org/licenses/MIT).

@@ -1,16 +1,16 @@
-/*	This file is part of riotgamesapi-typenode.
+/*	This file is part of league-typenode.
 
- riotgamesapi-typenode - Simple TypeScript library for Riot Games' API
+ league-typenode - Simple TypeScript library for Riot Games' API
  Copyright (C) 2016 Kewin Dousse (Protectator)
  */
 
 import * as chai from 'chai';
-import * as api from 'riotGamesApi';
-import * as rtnode from '../riotgamesapi-typenode';
+import * as api from 'leagueApi';
+import * as leaguetn from '../league-typenode';
 import * as fs from 'fs';
-import {RiotTypenode,ApiError} from "../riotgamesapi-typenode";
+import {LeagueTypenode,ApiError} from "../league-typenode";
 
-export class RiotTypenodeTests {
+export class LeagueTypenodeTests {
     public static run() {
         var assert:Chai.Assert = chai.assert;
 
@@ -24,9 +24,9 @@ export class RiotTypenodeTests {
             keyTournaments = jsonContent.tournaments;
         } catch (e) {
             if (e.code === 'ENOENT') {
-                keyValue = process.env.RIOTTYPENODE_KEY;
+                keyValue = process.env.LEAGUETYPENODE_KEY;
                 if (keyValue != "") {
-                    console.info("key.json file not found. Using environment variable RIOTTYPENODE_KEY.");
+                    console.info("key.json file not found. Using environment variable LEAGUETYPENODE_KEY.");
                     keyTournaments = false;
                 } else {
                     throw new Error("No valid API key found.");
@@ -36,7 +36,7 @@ export class RiotTypenodeTests {
             }
         }
 
-        var tn:rtnode.RiotTypenode = new rtnode.RiotTypenode(keyValue, keyTournaments);
+        var tn:leaguetn.LeagueTypenode = new leaguetn.LeagueTypenode(keyValue, keyTournaments);
         var playerId = 20717177;
 
         describe('champion-v1.2', function () {
@@ -571,4 +571,4 @@ export class RiotTypenodeTests {
     }
 }
 
-RiotTypenodeTests.run();
+LeagueTypenodeTests.run();

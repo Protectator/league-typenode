@@ -1,12 +1,12 @@
-/*	This file is part of riotgamesapi-typenode.
+/*	This file is part of league-typenode.
 
- riotgamesapi-typenode - Simple TypeScript library for Riot Games' API
+ league-typenode - Simple TypeScript library for Riot Games' API
  Copyright (C) 2016 Kewin Dousse (Protectator)
  */
 
 import * as https from 'https';
 import * as url from 'url';
-import * as api from 'riotGamesApi';
+import * as api from 'leagueApi';
 import * as fs from 'fs';
 
 export class ApiKey {
@@ -39,7 +39,7 @@ export class ApiError implements Error {
     }
 }
 
-export class RiotTypenode implements api.champion.Operations, api.championmastery.Operations,
+export class LeagueTypenode implements api.champion.Operations, api.championmastery.Operations,
     api.currentGame.Operations, api.featuredGames.Operations, api.game.Operations, api.league.Operations,
     api.lolStaticData.Operations, api.lolStatus.Operations, api.match.Operations, api.matchlist.Operations,
     api.stats.Operations, api.summoner.Operations, api.team.Operations, api.tournamentProvider.Operations {
@@ -62,7 +62,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     };
 
     /**
-     * Instanciates a RiotTypenode object using a key value
+     * Instanciates a LeagueTypenode object using a key value
      *
      * @param keyValue The API's key value, or ApiKey
      * @param tournamentsAccess true if the key can access tournaments endpoints
@@ -95,7 +95,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -116,7 +116,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -131,13 +131,13 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getChampionMastery(platformId:string, playerId:number, championId:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
-        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
             if (error) {
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -150,13 +150,13 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getChampionsMastery(platformId:string, playerId:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champions`;
         var query = {};
-        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
             if (error) {
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -169,13 +169,13 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getScore(platformId:string, playerId:number, callback?:(error:Error, data:number)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/score`;
         var query = {};
-        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
             if (error) {
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -190,13 +190,13 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
         var query = {
             "count": count
         };
-        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
             if (error) {
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -211,13 +211,13 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
     public getSpectatorGameInfoBySummonerId(platformId:string, summonerId:number, callback?:(error:Error, data:api.currentGame.CurrentGameInfo)=>void):void {
         var path = `/observer-mode/rest/consumer/getSpectatorGameInfo/${platformId}/${summonerId}`;
         var query = {};
-        var reqUrl = this.apiUrl(RiotTypenode.platformRegion[platformId], path, query);
+        var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
             if (error) {
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -238,7 +238,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -259,7 +259,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -280,7 +280,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -299,7 +299,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -318,7 +318,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -337,7 +337,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -358,7 +358,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -379,7 +379,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -405,7 +405,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -428,7 +428,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -451,7 +451,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -474,7 +474,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -496,7 +496,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -515,7 +515,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -537,7 +537,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -560,7 +560,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -583,7 +583,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -602,7 +602,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -625,7 +625,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -648,7 +648,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -672,7 +672,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -695,7 +695,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -714,7 +714,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -739,7 +739,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -762,7 +762,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -783,7 +783,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -805,7 +805,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -826,7 +826,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -855,7 +855,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -878,7 +878,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -899,7 +899,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -920,7 +920,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -939,7 +939,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -958,7 +958,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -977,7 +977,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -996,7 +996,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1017,7 +1017,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1036,7 +1036,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1060,7 +1060,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1079,7 +1079,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1098,7 +1098,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1117,7 +1117,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1136,7 +1136,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;
@@ -1155,7 +1155,7 @@ export class RiotTypenode implements api.champion.Operations, api.championmaster
                 callback(error, null);
             } else {
                 try {
-                    var data = RiotTypenode.errorCheck(json);
+                    var data = LeagueTypenode.errorCheck(json);
                 } catch (e) {
                     callback(e, null);
                     return;

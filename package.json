@@ -1,14 +1,14 @@
 {
-  "name": "riotgamesapi-typenode",
+  "name": "league-typenode",
   "version": "0.0.1",
-  "description": "Simple TypeScript library for Riot Games' API using riotgamesapi-typedef definitions",
-  "main": "build/riotgamesapi-typenode.js",
+  "description": "Simple TypeScript wrapper for Riot Games' API using league-typedef definitions",
+  "main": "build/league-typenode.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Protectator/riotgamesapi-typenode.git"
+    "url": "git+https://github.com/Protectator/league-typenode.git"
   },
   "keywords": [
     "riot",
@@ -21,9 +21,9 @@
   "author": "Kewin Dousse (Protectator) <me@protectator.ch>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Protectator/riotgamesapi-typenode/issues"
+    "url": "https://github.com/Protectator/league-typenode/issues"
   },
-  "homepage": "https://github.com/Protectator/riotgamesapi-typenode#readme",
+  "homepage": "https://github.com/Protectator/league-typenode#readme",
   "devDependencies": {
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
