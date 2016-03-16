@@ -39,6 +39,14 @@ export class ApiError implements Error {
     }
 }
 
+export class TooManyRequestsError extends ApiError {
+    public name:string = "TooManyRequestsError";
+
+    constructor(message:string, public retryAfter:number, public limitType:"user" | "service") {
+        super(429, message);
+    }
+}
+
 export class LeagueTypenode implements api.champion.Operations, api.championmastery.Operations,
     api.currentGame.Operations, api.featuredGames.Operations, api.game.Operations, api.league.Operations,
     api.lolStaticData.Operations, api.lolStatus.Operations, api.match.Operations, api.matchlist.Operations,
@@ -90,18 +98,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "freeToPlay": freeToPlay
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.champion.ChampionListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.champion.ChampionListDto>(error, json, headers, callback);
         });
     }
 
@@ -111,18 +109,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "id": id
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.champion.ChampionDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.champion.ChampionDto>(error, json, headers, callback);
         });
     }
 
@@ -132,18 +120,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.championmastery.ChampionMasteryDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.championmastery.ChampionMasteryDto>(error, json, headers, callback);
         });
     }
 
@@ -151,18 +129,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/championmastery/location/${platformId}/player/${playerId}/champions`;
         var query = {};
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.championmastery.ChampionMasteryDto[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.championmastery.ChampionMasteryDto[]>(error, json, headers, callback);
         });
     }
 
@@ -170,18 +138,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/championmastery/location/${platformId}/player/${playerId}/score`;
         var query = {};
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <number>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<number>(error, json, headers, callback);
         });
     }
 
@@ -191,18 +149,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "count": count
         };
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.championmastery.ChampionMasteryDto[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.championmastery.ChampionMasteryDto[]>(error, json, headers, callback);
         });
     }
 
@@ -212,18 +160,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/observer-mode/rest/consumer/getSpectatorGameInfo/${platformId}/${summonerId}`;
         var query = {};
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.currentGame.CurrentGameInfo>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.currentGame.CurrentGameInfo>(error, json, headers, callback);
         });
     }
 
@@ -233,18 +171,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/observer-mode/rest/featured`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.featuredGames.FeaturedGames>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.featuredGames.FeaturedGames>(error, json, headers, callback);
         });
     }
 
@@ -254,18 +182,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.3/game/by-summoner/${summonerId}/recent`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.game.RecentGamesDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.game.RecentGamesDto>(error, json, headers, callback);
         });
     }
 
@@ -275,18 +193,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.league.LeagueDto[]}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
@@ -294,18 +202,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.league.LeagueDto[]}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
@@ -313,18 +211,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.league.LeagueDto[]}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
@@ -332,18 +220,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.league.LeagueDto[]}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
@@ -353,18 +231,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "type": type
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.league.LeagueDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.league.LeagueDto>(error, json, headers, callback);
         });
     }
 
@@ -374,18 +242,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "type": type
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.league.LeagueDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.league.LeagueDto>(error, json, headers, callback);
         });
     }
 
@@ -400,18 +258,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "champData": champData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.ChampionListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.ChampionListDto>(error, json, headers, callback);
         });
     }
 
@@ -423,18 +271,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "champData": champData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.ChampionDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.ChampionDto>(error, json, headers, callback);
         });
     }
 
@@ -446,18 +284,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "itemListData": itemListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.ItemListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.ItemListDto>(error, json, headers, callback);
         });
     }
 
@@ -469,18 +297,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "itemData": itemData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.ItemDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.ItemDto>(error, json, headers, callback);
         });
     }
 
@@ -491,18 +309,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.LanguageStringsDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.LanguageStringsDto>(error, json, headers, callback);
         });
     }
 
@@ -510,18 +318,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/static-data/${region}/v1.2/languages`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <string[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
     }
 
@@ -532,18 +330,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.MapDataDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.MapDataDto>(error, json, headers, callback);
         });
     }
 
@@ -555,18 +343,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "masteryListData": masteryListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.MasteryListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.MasteryListDto>(error, json, headers, callback);
         });
     }
 
@@ -578,18 +356,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "masteryData": masteryData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.MasteryDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.MasteryDto>(error, json, headers, callback);
         });
     }
 
@@ -597,18 +365,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/static-data/${region}/v1.2/realm`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.RealmDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.RealmDto>(error, json, headers, callback);
         });
     }
 
@@ -620,18 +378,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "runeListData": runeListData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.RuneListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.RuneListDto>(error, json, headers, callback);
         });
     }
 
@@ -643,18 +391,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "runeData": runeData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.RuneDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.RuneDto>(error, json, headers, callback);
         });
     }
 
@@ -667,18 +405,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "spellData": spellData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.SummonerSpellListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellListDto>(error, json, headers, callback);
         });
     }
 
@@ -690,18 +418,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "spellData": spellData
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStaticData.SummonerSpellDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellDto>(error, json, headers, callback);
         });
     }
 
@@ -709,18 +427,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = ``;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <string[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
     }
 
@@ -734,18 +442,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             port: this.baseConfig.port,
             pathname: `/shards`
         };
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStatus.Shard[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStatus.Shard[]>(error, json, headers, callback);
         });
     }
 
@@ -757,18 +455,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             port: this.baseConfig.port,
             pathname: `/shards/${region}`
         };
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.lolStatus.ShardStatus>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.lolStatus.ShardStatus>(error, json, headers, callback);
         });
     }
 
@@ -778,18 +466,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.2/match/by-tournament/${tournamentCode}/ids`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <number[]>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<number[]>(error, json, headers, callback);
         });
     }
 
@@ -800,18 +478,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "includeTimeline": includeTimeline
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.match.MatchDetail>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.match.MatchDetail>(error, json, headers, callback);
         });
     }
 
@@ -821,18 +489,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "includeTimeline": includeTimeline
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.match.MatchDetail>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.match.MatchDetail>(error, json, headers, callback);
         });
     }
 
@@ -850,18 +508,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "endIndex": endIndex
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.matchlist.MatchList>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.matchlist.MatchList>(error, json, headers, callback);
         });
     }
 
@@ -873,18 +521,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "season": season
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.stats.RankedStatsDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.stats.RankedStatsDto>(error, json, headers, callback);
         });
     }
 
@@ -894,18 +532,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "season": season
         };
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.stats.PlayerStatsSummaryListDto>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.stats.PlayerStatsSummaryListDto>(error, json, headers, callback);
         });
     }
 
@@ -915,18 +543,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.4/summoner/by-name/${summonerNames}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.summoner.SummonerDto}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.SummonerDto}>(error, json, headers, callback);
         });
     }
 
@@ -934,18 +552,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.summoner.SummonerDto}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.SummonerDto}>(error, json, headers, callback);
         });
     }
 
@@ -953,18 +561,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/masteries`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.summoner.MasteryPagesDto}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.MasteryPagesDto}>(error, json, headers, callback);
         });
     }
 
@@ -972,18 +570,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/name`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: string}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: string}>(error, json, headers, callback);
         });
     }
 
@@ -991,18 +579,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/runes`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.summoner.RunePagesDto}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.RunePagesDto}>(error, json, headers, callback);
         });
     }
 
@@ -1012,18 +590,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.4/team/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.team.TeamDto[]}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.team.TeamDto[]}>(error, json, headers, callback);
         });
     }
 
@@ -1031,18 +599,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/api/lol/${region}/v2.4/team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <{[s: string]: api.team.TeamDto}>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<{[s: string]: api.team.TeamDto}>(error, json, headers, callback);
         });
     }
 
@@ -1055,18 +613,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "count": count
         };
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', JSON.stringify(body), (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <string[]>data);
-            }
+        this.apiCall(reqUrl, 'POST', JSON.stringify(body), (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
     }
 
@@ -1074,18 +622,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.tournamentProvider.TournamentCodeDTO>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.tournamentProvider.TournamentCodeDTO>(error, json, headers, callback);
         });
     }
 
@@ -1093,18 +631,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'PUT', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <void>data);
-            }
+        this.apiCall(reqUrl, 'PUT', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<void>(error, json, headers, callback);
         });
     }
 
@@ -1112,18 +640,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/tournament/public/v1/lobby/events/by-code/${tournamentCode}`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <api.tournamentProvider.LobbyEventDTOWrapper>data);
-            }
+        this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<api.tournamentProvider.LobbyEventDTOWrapper>(error, json, headers, callback);
         });
     }
 
@@ -1131,18 +649,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/tournament/public/v1/provider`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <number>data);
-            }
+        this.apiCall(reqUrl, 'POST', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<number>(error, json, headers, callback);
         });
     }
 
@@ -1150,18 +658,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var path = `/tournament/public/v1/tournament`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
-        this.apiCall(reqUrl, 'POST', '', (error:Error, json:string) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                try {
-                    var data = LeagueTypenode.errorCheck(json);
-                } catch (e) {
-                    callback(e, null);
-                    return;
-                }
-                callback(null, <number>data);
-            }
+        this.apiCall(reqUrl, 'POST', '', (error:Error, json:string, headers:Object) => {
+            LeagueTypenode.checkAndCast<number>(error, json, headers, callback);
         });
     }
 
@@ -1186,7 +684,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
     }
 
-    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string)=>void) {
+    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void) {
         var options:https.RequestOptions = {
             hostname: reqUrl.hostname,
             path: reqUrl.pathname + reqUrl.query,
@@ -1202,20 +700,39 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
                 body += chunk;
             });
             res.on('end', () => {
-                callback(null, body);
+                callback(null, body, res.headers);
             })
         });
         req.on('error', (e) => {
-            callback(e, null);
+            callback(e, null, null);
         });
         req.write(content);
         req.end();
     }
 
-    private static errorCheck(json:string) {
-        var data = JSON.parse(json);
+    private static checkAndCast<T>(error:Error, json:string, headers:Object, callback:(error:Error, data:T)=>void) {
+        if (error) {
+            callback(error, null);
+        } else {
+            try {
+                var data = LeagueTypenode.errorCheck(json, headers);
+            } catch (e) {
+                callback(e, null);
+                return;
+            }
+            callback(null, <T>data);
+        }
+    }
+
+    private static errorCheck(jsonContent:string, headers:Object) {
+        var data = JSON.parse(jsonContent);
         if (data.status && data.status.status_code !== 200) {
-            var error:ApiError = new ApiError(data.status.status_code, `Server responded with error ${data.status.status_code} : "${data.status.message}"`);
+            var error:ApiError;
+            if (data.status.statud_code == 429) {
+                error = new TooManyRequestsError(`Server responded with error ${data.status.status_code} : "${data.status.message}"`, headers['retry-after'], headers['x-rate-limit-type']);
+            } else {
+                error = new ApiError(data.status.status_code, `Server responded with error ${data.status.status_code} : "${data.status.message}"`);
+            }
             throw error;
         }
         return data;
