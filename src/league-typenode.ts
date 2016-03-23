@@ -728,7 +728,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         var data = JSON.parse(jsonContent);
         if (data.status && data.status.status_code !== 200) {
             var error:ApiError;
-            if (data.status.statud_code == 429) {
+            if (data.status.status_code == 429) {
                 error = new TooManyRequestsError(`Server responded with error ${data.status.status_code} : "${data.status.message}"`, headers['retry-after'], headers['x-rate-limit-type']);
             } else {
                 error = new ApiError(data.status.status_code, `Server responded with error ${data.status.status_code} : "${data.status.message}"`);
