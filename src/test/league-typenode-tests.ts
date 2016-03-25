@@ -5,16 +5,28 @@
  */
 
 import * as chai from 'chai';
-import * as api from 'leagueApi';
 import * as leaguetn from '../league-typenode';
 import * as fs from 'fs';
 import {LeagueTypenode, ApiError, TooManyRequestsError} from "../league-typenode";
 
 export class LeagueTypenodeTests {
 
-    public static maxRetry = 3;
-    public static playerId = 20717177;
-    public static teamId = -1;
+    private static maxRetry = 3;
+    private static playerId = 20717177;
+    private static playerName = "FNC Rekkles";
+    private static teamId = -1;
+    private static locale = "en_US";
+    private static version = "6.4";
+    private static masteryId = 6121;
+    private static runeId = 5233;
+    private static spellId = 4;
+    private static matchId;
+    private static tournamentCode;
+    private static tournamentId;
+    private static tournamentCodeParameters;
+    private static tournamentCodeUpdateParameters;
+    private static providerRegistrationBody;
+    private static tournamentRegistrationParameters;
 
     public static run() {
         var keyValue:string;
@@ -643,7 +655,7 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetLeagueByTeamIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getLeagueByTeamIds("euw", '0', (error, response) => {
+        tn.getLeagueByTeamIds("euw", `${LeagueTypenodeTests.teamId}`, (error, response) => {
             if (!error) {
                 chai.assert.isBoolean(response[`${LeagueTypenodeTests.teamId}`][0].entries[0].isInactive);
                 done();
@@ -654,7 +666,7 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetLeagueEntryByTeamIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getLeagueEntryByTeamIds("euw", '0', (error, response) => {
+        tn.getLeagueEntryByTeamIds("euw", `${LeagueTypenodeTests.teamId}`, (error, response) => {
             if (!error) {
                 chai.assert.isBoolean(response[`${LeagueTypenodeTests.teamId}`][0].entries[0].isInactive);
                 done();
@@ -687,147 +699,399 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetChampions(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getChampions("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, false, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetChampions, retries, done);
+            }
+        })
     }
 
     private static testGetChampionById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getChampionById("euw", 100, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetChampionById, retries, done);
+            }
+        })
     }
 
     private static testGetItems(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getItems("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetItems, retries, done);
+            }
+        })
     }
 
     private static testGetItemById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getItemById("euw", 100, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetItemById, retries, done);
+            }
+        })
     }
 
     private static testGetLanguageStrings(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getLanguageStrings("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLanguageStrings, retries, done);
+            }
+        })
     }
 
     private static testGetLanguages(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getLanguages("euw", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLanguages, retries, done);
+            }
+        })
     }
 
     private static testGetMaps(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMaps("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMaps, retries, done);
+            }
+        })
     }
 
     private static testGetMasteries(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMasteries("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteries, retries, done);
+            }
+        })
     }
 
     private static testGetMasteryById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMasteryById("euw", LeagueTypenodeTests.masteryId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteryById, retries, done);
+            }
+        })
     }
 
     private static testGetRealm(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getRealm("euw", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRealm, retries, done);
+            }
+        })
     }
 
     private static testGetRunes(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getRunes("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRunes, retries, done);
+            }
+        })
     }
 
     private static testGetRuneById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getRuneById("euw", LeagueTypenodeTests.runeId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRuneById, retries, done);
+            }
+        })
     }
 
     private static testGetSummonerSpells(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getSummonerSpells("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, true, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerSpells, retries, done);
+            }
+        })
     }
 
     private static testGetSummonerSpellById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getSummonerSpellById("euw", LeagueTypenodeTests.spellId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerSpellById, retries, done);
+            }
+        })
     }
 
     private static testGetVersions(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getVersions("euw", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetVersions, retries, done);
+            }
+        })
     }
 
     private static testGetShards(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getShards((error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetShards, retries, done);
+            }
+        })
     }
 
     private static testGetShard(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getShard("euw", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetShard, retries, done);
+            }
+        })
     }
 
     private static testGetMatchIdsByTournamentCode(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMatchIdsByTournamentCode("euw", LeagueTypenodeTests.tournamentCode, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchIdsByTournamentCode, retries, done);
+            }
+        })
     }
 
     private static testGetMatchByIdAndTournamentCode(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMatchByIdAndTournamentCode("euw", LeagueTypenodeTests.matchId, LeagueTypenodeTests.tournamentCode, true, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchByIdAndTournamentCode, retries, done);
+            }
+        })
     }
 
     private static testGetMatchById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMatchById("euw", LeagueTypenodeTests.matchId, true, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchById, retries, done);
+            }
+        })
     }
 
     private static testGetMatchesBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMatchesBySummonerId("euw", LeagueTypenodeTests.playerId, null, null, null, null, null, null, null, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchesBySummonerId, retries, done);
+            }
+        })
     }
 
     private static testGetRankedBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getRankedBySummonerId("euw", LeagueTypenodeTests.playerId, "SEASON2015", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRankedBySummonerId, retries, done);
+            }
+        })
     }
 
     private static testGetSummaryBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getSummaryBySummonerId("euw", LeagueTypenodeTests.playerId, "SEASON2015", (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummaryBySummonerId, retries, done);
+            }
+        })
     }
 
     private static testGetSummonerByNames(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getSummonerByNames("euw", LeagueTypenodeTests.playerName, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerByNames, retries, done);
+            }
+        })
     }
 
     private static testGetSummonerByIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getSummonerByIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerByIds, retries, done);
+            }
+        })
     }
 
     private static testGetMasteryPagesBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getMasteryPagesBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteryPagesBySummonerIds, retries, done);
+            }
+        })
     }
 
     private static testGetNameBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getNameBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetNameBySummonerIds, retries, done);
+            }
+        })
     }
 
     private static testGetRunePagesBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getRunePagesBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRunePagesBySummonerIds, retries, done);
+            }
+        })
     }
 
     private static testGetTeamsBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getTeamsBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTeamsBySummonerIds, retries, done);
+            }
+        })
     }
 
     private static testGetTeamsByTeamIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getTeamsByTeamIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTeamsByTeamIds, retries, done);
+            }
+        })
     }
 
     private static testCreateTournamentCodesById(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.createTournamentCodesById(LeagueTypenodeTests.tournamentId, 1, LeagueTypenodeTests.tournamentCodeParameters, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testCreateTournamentCodesById, retries, done);
+            }
+        })
     }
 
     private static testGetTournamentByCode(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getTournamentByCode(LeagueTypenodeTests.tournamentCode, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTournamentByCode, retries, done);
+            }
+        })
     }
 
     private static testUpdateTournamentByCode(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.updateTournamentByCode("euw", LeagueTypenodeTests.tournamentCodeUpdateParameters, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testUpdateTournamentByCode, retries, done);
+            }
+        })
     }
 
     private static testGetLobbyEventsByTournamentCode(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.getLobbyEventsByTournamentCode(LeagueTypenodeTests.tournamentCode, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLobbyEventsByTournamentCode, retries, done);
+            }
+        })
     }
 
     private static testCreateTournamentProvider(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.createTournamentProvider(LeagueTypenodeTests.providerRegistrationBody, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testCreateTournamentProvider, retries, done);
+            }
+        })
     }
 
     private static testCreateTournament(tn:LeagueTypenode, retries:number, done:Function):void {
-        it("test case to be implemented");
+        tn.createTournament(LeagueTypenodeTests.tournamentRegistrationParameters, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+                done();
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testCreateTournament, retries, done);
+            }
+        })
     }
 }
 
