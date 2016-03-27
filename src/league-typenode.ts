@@ -257,7 +257,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "dataById": dataById,
             "champData": champData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ChampionListDto>(error, json, headers, callback);
         });
@@ -270,7 +270,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "champData": champData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ChampionDto>(error, json, headers, callback);
         });
@@ -283,7 +283,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "itemListData": itemListData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ItemListDto>(error, json, headers, callback);
         });
@@ -296,7 +296,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "itemData": itemData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ItemDto>(error, json, headers, callback);
         });
@@ -308,7 +308,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "locale": locale,
             "version": version
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.LanguageStringsDto>(error, json, headers, callback);
         });
@@ -317,7 +317,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     public getLanguages(region:string, callback?:(error:Error, data:string[])=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/languages`;
         var query = {};
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
@@ -329,7 +329,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "locale": locale,
             "version": version
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MapDataDto>(error, json, headers, callback);
         });
@@ -342,7 +342,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "masteryListData": masteryListData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MasteryListDto>(error, json, headers, callback);
         });
@@ -355,7 +355,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "masteryData": masteryData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MasteryDto>(error, json, headers, callback);
         });
@@ -364,7 +364,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     public getRealm(region:string, callback?:(error:Error, data:api.lolStaticData.RealmDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/realm`;
         var query = {};
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.RealmDto>(error, json, headers, callback);
         });
@@ -377,7 +377,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "runeListData": runeListData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.RuneListDto>(error, json, headers, callback);
         });
@@ -390,7 +390,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "runeData": runeData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.RuneDto>(error, json, headers, callback);
         });
@@ -404,7 +404,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "dataById": dataById,
             "spellData": spellData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellListDto>(error, json, headers, callback);
         });
@@ -417,7 +417,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "version": version,
             "spellData": spellData
         };
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellDto>(error, json, headers, callback);
         });
@@ -426,7 +426,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     public getVersions(region:string, callback?:(error:Error, data:string[])=>void):void {
         var path = ``;
         var query = {};
-        var reqUrl = this.apiUrl(region, path, query);
+        var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
