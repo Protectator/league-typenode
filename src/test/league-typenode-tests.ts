@@ -17,6 +17,7 @@ export class LeagueTypenodeTests {
     private static teamId = "TEAM-bafbc9a0-dd6b-11e4-8df7-c81f66db8bc5"; // [Adkrn] The Bad Guys of Adrkness
     private static locale = "en_US";
     private static version = "6.6.1";
+    private static itemId = 1036;
     private static masteryId = 6121;
     private static runeId = 5233;
     private static spellId = 4;
@@ -27,6 +28,7 @@ export class LeagueTypenodeTests {
     private static tournamentCodeUpdateParameters;
     private static providerRegistrationBody;
     private static tournamentRegistrationParameters;
+    private static championId = 84; // Akali
 
     public static run() {
         var keyValue:string;
@@ -59,7 +61,6 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getChampionsStatus', () => {
-
                 it("should return more than 100 values with no filter", (done) => {
                     LeagueTypenodeTests.testGetChampionStatus1(tn, LeagueTypenodeTests.maxRetry, done);
                 });
@@ -67,7 +68,6 @@ export class LeagueTypenodeTests {
                 it("should return at least 10 values with no filter", (done) => {
                     LeagueTypenodeTests.testGetChampionStatus2(tn, LeagueTypenodeTests.maxRetry, done);
                 });
-
             });
 
             describe('getChampionStatusById', () => {
@@ -102,7 +102,6 @@ export class LeagueTypenodeTests {
 
             describe('getTopChampions', () => {
                 it("should be a list", (done) => {
-
                     LeagueTypenodeTests.testGetTopChampions(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -115,10 +114,8 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getSpectatorGameInfoBySummonerId', () => {
-
                 it("should try to find a game");
                 // LeagueTypenodeTests.testGetSpectatorGameInfoBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
-
             });
 
         });
@@ -202,100 +199,87 @@ export class LeagueTypenodeTests {
             });
 
             describe('getChampionById', () => {
-
-                // LeagueTypenodeTests.testGetChampionById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should find Akali's data", (done) => {
+                    LeagueTypenodeTests.testGetChampionById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getItems', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetItems(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"item\"", (done) => {
+                    LeagueTypenodeTests.testGetItems(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getItemById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetItemById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should find Long Sword's data", (done) => {
+                    LeagueTypenodeTests.testGetItemById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getLanguageStrings', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetLanguageStrings(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"language\"", (done) => {
+                    LeagueTypenodeTests.testGetLanguageStrings(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getLanguages', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetLanguages(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should contain \"en_US\"", (done) => {
+                    LeagueTypenodeTests.testGetLanguages(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMaps', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMaps(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"map\"", (done) => {
+                    LeagueTypenodeTests.testGetMaps(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMasteries', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMasteries(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"mastery\"", (done) => {
+                    LeagueTypenodeTests.testGetMasteries(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMasteryById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMasteryById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should find the asked mastery's data", (done) => {
+                    LeagueTypenodeTests.testGetMasteryById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getRealm', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetRealm(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should have a valid max profile's icon's value", (done) => {
+                    LeagueTypenodeTests.testGetRealm(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getRunes', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetRunes(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"rune\"", (done) => {
+                    LeagueTypenodeTests.testGetRunes(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getRuneById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetRuneById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should find the asked rune's data", (done) => {
+                    LeagueTypenodeTests.testGetRuneById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getSummonerSpells', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetSummonerSpells(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should be of type \"summonerspell\"", (done) => {
+                    LeagueTypenodeTests.testGetSummonerSpells(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getSummonerSpellById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetSummonerSpellById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should find the asked summoner spell's data", (done) => {
+                    LeagueTypenodeTests.testGetSummonerSpellById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getVersions', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetVersions(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should contain version 6.6.1", (done) => {
+                    LeagueTypenodeTests.testGetVersions(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -697,9 +681,10 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetChampionById(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getChampionById("euw", 100, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+        tn.getChampionById("euw", 84, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "info", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.id, LeagueTypenodeTests.championId, "Asked champion's id");
+                chai.assert.equal(response.key, "Akali", "Asked champion's key");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetChampionById, retries, done);
@@ -708,9 +693,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetItems(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getItems("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+        tn.getItems("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "tags", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "item", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetItems, retries, done);
@@ -719,9 +704,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetItemById(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getItemById("euw", 100, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+        tn.getItemById("euw", LeagueTypenodeTests.itemId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "tags", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.id, LeagueTypenodeTests.itemId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetItemById, retries, done);
@@ -732,7 +717,7 @@ export class LeagueTypenodeTests {
     private static testGetLanguageStrings(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getLanguageStrings("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "language", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLanguageStrings, retries, done);
@@ -743,7 +728,7 @@ export class LeagueTypenodeTests {
     private static testGetLanguages(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getLanguages("euw", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.include(response, "en_US", "Languages contains \"en_US\".");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLanguages, retries, done);
@@ -754,7 +739,7 @@ export class LeagueTypenodeTests {
     private static testGetMaps(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMaps("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "map", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMaps, retries, done);
@@ -765,7 +750,7 @@ export class LeagueTypenodeTests {
     private static testGetMasteries(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMasteries("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "mastery", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteries, retries, done);
@@ -776,7 +761,7 @@ export class LeagueTypenodeTests {
     private static testGetMasteryById(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMasteryById("euw", LeagueTypenodeTests.masteryId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.id, LeagueTypenodeTests.masteryId, "Mastery id");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteryById, retries, done);
@@ -787,7 +772,7 @@ export class LeagueTypenodeTests {
     private static testGetRealm(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getRealm("euw", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isAtLeast(response.profileiconmax, 28, "Profile's icon max value under 500");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRealm, retries, done);
@@ -796,9 +781,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetRunes(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getRunes("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+        tn.getRunes("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "basic", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "rune", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRunes, retries, done);
@@ -807,9 +792,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetRuneById(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getRuneById("euw", LeagueTypenodeTests.runeId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
+        tn.getRuneById("euw", LeagueTypenodeTests.runeId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "stats", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.id, LeagueTypenodeTests.runeId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRuneById, retries, done);
@@ -820,7 +805,7 @@ export class LeagueTypenodeTests {
     private static testGetSummonerSpells(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummonerSpells("euw", LeagueTypenodeTests.locale, LeagueTypenodeTests.version, true, "all", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.type, "summoner", "Response's type");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerSpells, retries, done);
@@ -831,7 +816,7 @@ export class LeagueTypenodeTests {
     private static testGetSummonerSpellById(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummonerSpellById("euw", LeagueTypenodeTests.spellId, LeagueTypenodeTests.locale, LeagueTypenodeTests.version, "all", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.id, LeagueTypenodeTests.spellId, "Spell's id");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerSpellById, retries, done);
@@ -842,7 +827,7 @@ export class LeagueTypenodeTests {
     private static testGetVersions(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getVersions("euw", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.include(response, "6.6.1", "Contains version 6.6.1");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetVersions, retries, done);

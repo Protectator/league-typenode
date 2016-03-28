@@ -424,7 +424,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     }
 
     public getVersions(region:string, callback?:(error:Error, data:string[])=>void):void {
-        var path = ``;
+        var path = `/api/lol/static-data/${region}/v1.2/versions`;
         var query = {};
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
