@@ -1,10 +1,10 @@
 {
   "name": "league-typenode",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple TypeScript wrapper for Riot Games' API using league-typedef definitions",
   "main": "build/league-typenode.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
