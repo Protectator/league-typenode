@@ -287,19 +287,18 @@ export class LeagueTypenodeTests {
         describe('lol-status', function () {
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('getShards', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetShards(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetShards(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getShard', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetShard(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetShard(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -307,26 +306,24 @@ export class LeagueTypenodeTests {
         describe('match', function () {
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('getMatchIdsByTournamentCode', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMatchIdsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetMatchIdsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMatchByIdAndTournamentCode', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMatchByIdAndTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetMatchByIdAndTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMatchById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMatchById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetMatchById(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -334,12 +331,13 @@ export class LeagueTypenodeTests {
         describe('matchlist', function () {
 
             this.slow(200);
+            this.timeout(15000);
+
 
             describe('getMatchesBySummonerId', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMatchesBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetMatchesBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -347,19 +345,18 @@ export class LeagueTypenodeTests {
         describe('stats', function () {
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('getRankedBySummonerId', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetRankedBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetRankedBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getSummaryBySummonerId', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetSummaryBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetSummaryBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -367,40 +364,36 @@ export class LeagueTypenodeTests {
         describe('summoner', function () {
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('getSummonerByNames', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetSummonerByNames(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetSummonerByNames(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getSummonerByIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetSummonerByIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetSummonerByIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getMasteryPagesBySummonerIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetMasteryPagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetMasteryPagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getNameBySummonerIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetNameBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetNameBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getRunePagesBySummonerIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetRunePagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetRunePagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -408,19 +401,18 @@ export class LeagueTypenodeTests {
         describe('team', function () {
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('getTeamsBySummonerIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetTeamsBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetTeamsBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
             describe('getTeamsByTeamIds', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetTeamsByTeamIds(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("should", (done) => {
+                    LeagueTypenodeTests.testGetTeamsByTeamIds(tn, LeagueTypenodeTests.maxRetry, done);
+                });
             });
 
         });
@@ -435,6 +427,7 @@ export class LeagueTypenodeTests {
             });
 
             this.slow(200);
+            this.timeout(15000);
 
             describe('createTournamentCodesById', () => {
 
@@ -838,7 +831,7 @@ export class LeagueTypenodeTests {
     private static testGetShards(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getShards((error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isString(response[0].name);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetShards, retries, done);
@@ -849,7 +842,7 @@ export class LeagueTypenodeTests {
     private static testGetShard(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getShard("euw", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.region_tag, "euw");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetShard, retries, done);
@@ -860,7 +853,7 @@ export class LeagueTypenodeTests {
     private static testGetMatchIdsByTournamentCode(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMatchIdsByTournamentCode("euw", LeagueTypenodeTests.tournamentCode, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isNumber(response[0]);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchIdsByTournamentCode, retries, done);
@@ -871,7 +864,7 @@ export class LeagueTypenodeTests {
     private static testGetMatchByIdAndTournamentCode(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMatchByIdAndTournamentCode("euw", LeagueTypenodeTests.matchId, LeagueTypenodeTests.tournamentCode, true, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.region, "euw");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchByIdAndTournamentCode, retries, done);
@@ -882,7 +875,7 @@ export class LeagueTypenodeTests {
     private static testGetMatchById(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMatchById("euw", LeagueTypenodeTests.matchId, true, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.matchId, LeagueTypenodeTests.matchId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchById, retries, done);
@@ -893,7 +886,7 @@ export class LeagueTypenodeTests {
     private static testGetMatchesBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMatchesBySummonerId("euw", LeagueTypenodeTests.playerId, null, null, null, null, null, null, null, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isAbove(response.totalGames, 0);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMatchesBySummonerId, retries, done);
@@ -904,7 +897,7 @@ export class LeagueTypenodeTests {
     private static testGetRankedBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getRankedBySummonerId("euw", LeagueTypenodeTests.playerId, "SEASON2015", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.summonerId, LeagueTypenodeTests.playerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRankedBySummonerId, retries, done);
@@ -915,7 +908,7 @@ export class LeagueTypenodeTests {
     private static testGetSummaryBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummaryBySummonerId("euw", LeagueTypenodeTests.playerId, "SEASON2015", (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response.summonerId, LeagueTypenodeTests.playerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummaryBySummonerId, retries, done);
@@ -926,7 +919,7 @@ export class LeagueTypenodeTests {
     private static testGetSummonerByNames(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummonerByNames("euw", LeagueTypenodeTests.playerName, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response[LeagueTypenodeTests.playerName].name, LeagueTypenodeTests.playerName);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerByNames, retries, done);
@@ -937,7 +930,7 @@ export class LeagueTypenodeTests {
     private static testGetSummonerByIds(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummonerByIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response[`${LeagueTypenodeTests.playerId}`].id, LeagueTypenodeTests.playerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerByIds, retries, done);
@@ -948,7 +941,7 @@ export class LeagueTypenodeTests {
     private static testGetMasteryPagesBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getMasteryPagesBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response[`${LeagueTypenodeTests.playerId}`].summonerId, LeagueTypenodeTests.playerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetMasteryPagesBySummonerIds, retries, done);
@@ -959,7 +952,7 @@ export class LeagueTypenodeTests {
     private static testGetNameBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getNameBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response[`${LeagueTypenodeTests.playerId}`], LeagueTypenodeTests.playerName);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetNameBySummonerIds, retries, done);
@@ -970,7 +963,7 @@ export class LeagueTypenodeTests {
     private static testGetRunePagesBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getRunePagesBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.equal(response[`${LeagueTypenodeTests.playerId}`].summonerId, LeagueTypenodeTests.playerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetRunePagesBySummonerIds, retries, done);
@@ -981,7 +974,7 @@ export class LeagueTypenodeTests {
     private static testGetTeamsBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getTeamsBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isNumber(response[`${LeagueTypenodeTests.playerId}`][0].roster.ownerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTeamsBySummonerIds, retries, done);
@@ -990,9 +983,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetTeamsByTeamIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getTeamsByTeamIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+        tn.getTeamsByTeamIds("euw", `${LeagueTypenodeTests.teamId}`, (error, response) => {
             if (!error) {
-                // TODO : Assert things
+                chai.assert.isNumber(response[`${LeagueTypenodeTests.teamId}`].roster.ownerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTeamsByTeamIds, retries, done);

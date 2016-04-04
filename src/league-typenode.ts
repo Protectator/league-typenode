@@ -444,7 +444,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStatus.Shard[]>(error, json, headers, callback);
-        });
+        }, false); // TODO : Check why rejectUnauthorized=false has to be used
     }
 
     public getShard(region:string, callback?:(error:Error, data:api.lolStatus.ShardStatus)=>void):void {
@@ -457,7 +457,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStatus.ShardStatus>(error, json, headers, callback);
-        });
+        }, false); // TODO : Check why rejectUnauthorized=false has to be used
     }
 
     // match
@@ -684,7 +684,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
     }
 
-    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void) {
+    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void, rejectUnauthorized: boolean = true) {
         var options:https.RequestOptions = {
             hostname: reqUrl.hostname,
             path: reqUrl.pathname + reqUrl.query,
@@ -692,7 +692,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Content-Length': content.length
-            }
+            },
+            rejectUnauthorized: rejectUnauthorized
         };
         var req = https.request(options, (res) => {
             var body = '';
