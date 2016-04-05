@@ -96,9 +96,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionsStatus(region:string, freeToPlay?:boolean, callback?:(error:Error, data:api.champion.ChampionListDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion`;
-        var query = {
+        var query = this.encodeProperties({
             "freeToPlay": freeToPlay
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.champion.ChampionListDto>(error, json, headers, callback);
@@ -107,9 +107,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionStatusById(region:string, id:number, callback?:(error:Error, data:api.champion.ChampionDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "id": id
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.champion.ChampionDto>(error, json, headers, callback);
@@ -147,9 +147,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getTopChampions(platformId:string, playerId:number, count:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/topchampions`;
-        var query = {
+        var query = this.encodeProperties({
             "count": count
-        };
+        });
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.championmastery.ChampionMasteryDto[]>(error, json, headers, callback);
@@ -229,9 +229,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getLeagueChallenger(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/challenger`;
-        var query = {
+        var query = this.encodeProperties({
             "type": type
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.league.LeagueDto>(error, json, headers, callback);
@@ -240,9 +240,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getLeagueMaster(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/master`;
-        var query = {
+        var query = this.encodeProperties({
             "type": type
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.league.LeagueDto>(error, json, headers, callback);
@@ -253,12 +253,12 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampions(region:string, locale:string, version:string, dataById:boolean, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "dataById": dataById,
             "champData": champData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ChampionListDto>(error, json, headers, callback);
@@ -267,11 +267,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionById(region:string, id:number, locale:string, version:string, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "champData": champData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ChampionDto>(error, json, headers, callback);
@@ -280,11 +280,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getItems(region:string, locale:string, version:string, itemListData:string, callback?:(error:Error, data:api.lolStaticData.ItemListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "itemListData": itemListData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ItemListDto>(error, json, headers, callback);
@@ -293,11 +293,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getItemById(region:string, id:number, locale:string, version:string, itemData:string, callback?:(error:Error, data:api.lolStaticData.ItemDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "itemData": itemData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.ItemDto>(error, json, headers, callback);
@@ -306,10 +306,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getLanguageStrings(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.LanguageStringsDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/language-strings`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.LanguageStringsDto>(error, json, headers, callback);
@@ -327,10 +327,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMaps(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.MapDataDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/map`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MapDataDto>(error, json, headers, callback);
@@ -339,11 +339,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMasteries(region:string, locale:string, version:string, masteryListData:string, callback?:(error:Error, data:api.lolStaticData.MasteryListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "masteryListData": masteryListData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MasteryListDto>(error, json, headers, callback);
@@ -352,11 +352,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMasteryById(region:string, id:number, locale:string, version:string, masteryData:string, callback?:(error:Error, data:api.lolStaticData.MasteryDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "masteryData": masteryData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.MasteryDto>(error, json, headers, callback);
@@ -374,11 +374,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRunes(region:string, locale:string, version:string, runeListData:string, callback?:(error:Error, data:api.lolStaticData.RuneListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "runeListData": runeListData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.RuneListDto>(error, json, headers, callback);
@@ -387,11 +387,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRuneById(region:string, id:number, locale:string, version:string, runeData:string, callback?:(error:Error, data:api.lolStaticData.RuneDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "runeData": runeData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.RuneDto>(error, json, headers, callback);
@@ -400,12 +400,12 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummonerSpells(region:string, locale:string, version:string, dataById:boolean, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "dataById": dataById,
             "spellData": spellData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellListDto>(error, json, headers, callback);
@@ -414,11 +414,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummonerSpellById(region:string, id:number, locale:string, version:string, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell/${id}`;
-        var query = {
+        var query = this.encodeProperties({
             "locale": locale,
             "version": version,
             "spellData": spellData
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStaticData.SummonerSpellDto>(error, json, headers, callback);
@@ -475,10 +475,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchByIdAndTournamentCode(region:string, matchId:number, tournamentCode:string, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/for-tournament/${matchId}`;
-        var query = {
+        var query = this.encodeProperties({
             "tournamentCode": tournamentCode,
             "includeTimeline": includeTimeline
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.match.MatchDetail>(error, json, headers, callback);
@@ -487,9 +487,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchById(region:string, matchId:number, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/${matchId}`;
-        var query = {
+        var query = this.encodeProperties({
             "includeTimeline": includeTimeline
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.match.MatchDetail>(error, json, headers, callback);
@@ -500,7 +500,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchesBySummonerId(region:string, summonerId:number, championIds:string, rankedQueues:string, seasons:string, beginTime:number, endTime:number, beginIndex:number, endIndex:number, callback?:(error:Error, data:api.matchlist.MatchList)=>void):void {
         var path = `/api/lol/${region}/v2.2/matchlist/by-summoner/${summonerId}`;
-        var query = {
+        var query = this.encodeProperties({
             "championIds": championIds,
             "rankedQueues": rankedQueues,
             "seasons": seasons,
@@ -508,7 +508,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             "endTime": endTime,
             "beginIndex": beginIndex,
             "endIndex": endIndex
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.matchlist.MatchList>(error, json, headers, callback);
@@ -519,9 +519,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRankedBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.RankedStatsDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/ranked`;
-        var query = {
+        var query = this.encodeProperties({
             "season": season
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.stats.RankedStatsDto>(error, json, headers, callback);
@@ -530,9 +530,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummaryBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.PlayerStatsSummaryListDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/summary`;
-        var query = {
+        var query = this.encodeProperties({
             "season": season
-        };
+        });
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.stats.PlayerStatsSummaryListDto>(error, json, headers, callback);
@@ -542,7 +542,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     // summoner
 
     public getSummonerByNames(region:string, summonerNames:string, callback?:(error:Error, data:{[s: string]: api.summoner.SummonerDto})=>void):void {
-        var path = `/api/lol/${region}/v1.4/summoner/by-name/${summonerNames}`;
+        var path = `/api/lol/${region}/v1.4/summoner/by-name/${encodeURIComponent(summonerNames)}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
@@ -610,10 +610,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public createTournamentCodesById(tournamentId:number, count:number, body:api.tournamentProvider.TournamentCodeParameters, callback?:(error:Error, data:string[])=>void):void {
         var path = `/tournament/public/v1/code`;
-        var query = {
+        var query = this.encodeProperties({
             "tournamentId": tournamentId,
             "count": count
-        };
+        });
         var reqUrl = this.apiUrl("global", path, query);
         this.apiCall(reqUrl, 'POST', JSON.stringify(body), (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
@@ -665,7 +665,24 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    // Public utility methods
+
+    public static uniqueName(name): string {
+        return name.replace(/ /g, "").toLowerCase();
+    }
+
     // Private methods
+
+    private encodeProperties(query:Object) {
+        for (var key in query) {
+            if (query[key] == null) {
+                delete query[key];
+            } else {
+                query[key] = encodeURIComponent(query[key]);
+            }
+        }
+        return query;
+    }
 
     private apiUrl(region:string, path:string, query:Object):url.Url {
         var result = "";

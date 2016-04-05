@@ -21,7 +21,7 @@ export class LeagueTypenodeTests {
     private static masteryId = 6121;
     private static runeId = 5233;
     private static spellId = 4;
-    private static matchId;
+    private static matchId = 2586444720;
     private static tournamentCode;
     private static tournamentId;
     private static tournamentCodeParameters;
@@ -309,15 +309,15 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getMatchIdsByTournamentCode', () => {
-                it("should", (done) => {
+                it("should"/*, (done) => {
                     LeagueTypenodeTests.testGetMatchIdsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-                });
+                }*/); // TODO : Get a valid tournament code
             });
 
             describe('getMatchByIdAndTournamentCode', () => {
-                it("should", (done) => {
+                it("should"/*, (done) => {
                     LeagueTypenodeTests.testGetMatchByIdAndTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-                });
+                }*/); // TODO : Get a valid tournament code
             });
 
             describe('getMatchById', () => {
@@ -919,7 +919,7 @@ export class LeagueTypenodeTests {
     private static testGetSummonerByNames(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getSummonerByNames("euw", LeagueTypenodeTests.playerName, (error, response) => {
             if (!error) {
-                chai.assert.equal(response[LeagueTypenodeTests.playerName].name, LeagueTypenodeTests.playerName);
+                chai.assert.equal(response[LeagueTypenode.uniqueName(LeagueTypenodeTests.playerName)].name, LeagueTypenodeTests.playerName);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSummonerByNames, retries, done);
