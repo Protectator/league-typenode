@@ -42,7 +42,7 @@ export class LeagueTypenodeTests {
             keyTournaments = jsonContent.tournaments;
         } catch (e) {
             if (e.code === 'ENOENT') {
-                keyValue = process.env.LEAGUETYPENODE_KEY;
+                keyValue = process.env['LEAGUETYPENODE_KEY'];
                 if (keyValue != "") {
                     console.info("key.json file not found. Using environment variable LEAGUETYPENODE_KEY.");
                     keyTournaments = false;
@@ -141,7 +141,7 @@ export class LeagueTypenodeTests {
 
             describe('getRecentGamesBySummonerId', () => {
                 it("should return a 404 error", (done) => {
-                    LeagueTypenodeTests.testGetRecentGamesBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
+                    LeagueTypenodeTests.testGetRecentGamesBySummonerId(tn, done);
                 });
             });
 
@@ -291,13 +291,13 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getShards', () => {
-                it("should", (done) => {
+                it("should have a valid first shard's name", (done) => {
                     LeagueTypenodeTests.testGetShards(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getShard', () => {
-                it("should", (done) => {
+                it("should have a \"euw\" region", (done) => {
                     LeagueTypenodeTests.testGetShard(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -310,15 +310,15 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getMatchIdsByTournamentCode', () => {
-                it("should"/*, (done) => {
-                    LeagueTypenodeTests.testGetMatchIdsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-                }*/); // TODO : Get a valid tournament code
+                it("should have a valid first match"/*, (done) => {
+                 LeagueTypenodeTests.testGetMatchIdsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/); // TODO : Get a valid tournament code
             });
 
             describe('getMatchByIdAndTournamentCode', () => {
-                it("should"/*, (done) => {
-                    LeagueTypenodeTests.testGetMatchByIdAndTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-                }*/); // TODO : Get a valid tournament code
+                it("should find the match correctly"/*, (done) => {
+                 LeagueTypenodeTests.testGetMatchByIdAndTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/); // TODO : Get a valid tournament code
             });
 
             describe('getMatchById', () => {
@@ -336,7 +336,7 @@ export class LeagueTypenodeTests {
 
 
             describe('getMatchesBySummonerId', () => {
-                it("should", (done) => {
+                it("should have at least one game", (done) => {
                     LeagueTypenodeTests.testGetMatchesBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -349,13 +349,13 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getRankedBySummonerId', () => {
-                it("should", (done) => {
+                it("should find the correct summoner", (done) => {
                     LeagueTypenodeTests.testGetRankedBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getSummaryBySummonerId', () => {
-                it("should", (done) => {
+                it("should find the correct summoner", (done) => {
                     LeagueTypenodeTests.testGetSummaryBySummonerId(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -368,31 +368,31 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getSummonerByNames', () => {
-                it("should", (done) => {
+                it("should contain the correct summoner's name", (done) => {
                     LeagueTypenodeTests.testGetSummonerByNames(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getSummonerByIds', () => {
-                it("should", (done) => {
+                it("should contain the correct summoner's id", (done) => {
                     LeagueTypenodeTests.testGetSummonerByIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getMasteryPagesBySummonerIds', () => {
-                it("should", (done) => {
+                it("should contain the page of the correct summoner", (done) => {
                     LeagueTypenodeTests.testGetMasteryPagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getNameBySummonerIds', () => {
-                it("should", (done) => {
+                it("should get the name of the correct summoner", (done) => {
                     LeagueTypenodeTests.testGetNameBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getRunePagesBySummonerIds', () => {
-                it("should", (done) => {
+                it("should contain the page of the correct summoner", (done) => {
                     LeagueTypenodeTests.testGetRunePagesBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -405,13 +405,13 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getTeamsBySummonerIds', () => {
-                it("should", (done) => {
+                it("should have a valid owner", (done) => {
                     LeagueTypenodeTests.testGetTeamsBySummonerIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
 
             describe('getTeamsByTeamIds', () => {
-                it("should", (done) => {
+                it("should have a valid owner", (done) => {
                     LeagueTypenodeTests.testGetTeamsByTeamIds(tn, LeagueTypenodeTests.maxRetry, done);
                 });
             });
@@ -431,45 +431,39 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('createTournamentCodesById', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testCreateTournamentCodesById(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testCreateTournamentCodesById(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
             describe('getTournamentByCode', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetTournamentByCode(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testGetTournamentByCode(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
             describe('updateTournamentByCode', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testUpdateTournamentByCode(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testUpdateTournamentByCode(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
             describe('getLobbyEventsByTournamentCode', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testGetLobbyEventsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testGetLobbyEventsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
             describe('createTournamentProvider', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testCreateTournamentProvider(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testCreateTournamentProvider(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
             describe('createTournament', () => {
-
-                // TODO
-                // LeagueTypenodeTests.testCreateTournament(tn, LeagueTypenodeTests.maxRetry, done);
-
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testCreateTournament(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
             });
 
         });
@@ -477,10 +471,9 @@ export class LeagueTypenodeTests {
 
     private static retryIf429(tn:LeagueTypenode, error:Error, toTry:Function, retries:number, done:Function) {
         if (error.name == "TooManyRequestsError" && (<ApiError>error).code == 429 && retries > 0) {
-            var toWait:number = (<TooManyRequestsError>error).retryAfter;
             setTimeout(function () {
                 toTry(tn, retries - 1, done);
-            }, toWait * 1000);
+            }, (<TooManyRequestsError>error).retryAfter * 1000);
         } else {
             throw error;
         }
@@ -566,7 +559,13 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetSpectatorGameInfoBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
-        return;
+        tn.getSpectatorGameInfoBySummonerId("euw", LeagueTypenodeTests.playerId, (error, response) => {
+            if (!error) {
+                // TODO : Assert things
+            } else {
+                LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetSpectatorGameInfoBySummonerId, retries, done);
+            }
+        });
     }
 
     private static testGetFeaturedGames(tn:LeagueTypenode, retries:number, done:Function):void {
@@ -582,7 +581,7 @@ export class LeagueTypenodeTests {
         });
     }
 
-    private static testGetRecentGamesBySummonerId(tn:LeagueTypenode, retries:number, done:Function):void {
+    private static testGetRecentGamesBySummonerId(tn:LeagueTypenode, done:Function):void {
         tn.getRecentGamesBySummonerId("euw", 255171257, (error, response) => {
             if (error) {
                 if (error.name == "ApiError") {

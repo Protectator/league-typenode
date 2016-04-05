@@ -9,7 +9,6 @@ import * as http from 'http';
 import * as url from 'url';
 import * as api from 'leagueApi';
 import * as fs from 'fs';
-import {ClientRequest} from "http";
 
 export class ApiKey {
     public value:string;
@@ -44,7 +43,7 @@ export class ApiError implements Error {
 export class TooManyRequestsError extends ApiError {
     public name:string = "TooManyRequestsError";
 
-    constructor(message:string, public retryAfter:number, public limitType:"user" | "service") {
+    constructor(message:string, public retryAfter:number, public limitType:"user"|"service") {
         super(429, message);
     }
 }
@@ -54,7 +53,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     api.lolStaticData.Operations, api.lolStatus.Operations, api.match.Operations, api.matchlist.Operations,
     api.stats.Operations, api.summoner.Operations, api.team.Operations, api.tournamentProvider.Operations {
 
-    public  key:ApiKey;
+    public key:ApiKey;
 
     private baseConfig:url.Url;
     private static platformRegion = {
@@ -96,7 +95,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionsStatus(region:string, freeToPlay?:boolean, callback?:(error:Error, data:api.champion.ChampionListDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "freeToPlay": freeToPlay
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -107,7 +106,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionStatusById(region:string, id:number, callback?:(error:Error, data:api.champion.ChampionDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "id": id
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -147,7 +146,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getTopChampions(platformId:string, playerId:number, count:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/topchampions`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "count": count
         });
         var reqUrl = this.apiUrl(LeagueTypenode.platformRegion[platformId], path, query);
@@ -191,45 +190,45 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // league
 
-    public getLeagueBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.league.LeagueDto[]})=>void):void {
+    public getLeagueBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
-    public getLeagueEntryBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.league.LeagueDto[]})=>void):void {
+    public getLeagueEntryBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
-    public getLeagueByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s: string]: api.league.LeagueDto[]})=>void):void {
+    public getLeagueByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
-    public getLeagueEntryByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s: string]: api.league.LeagueDto[]})=>void):void {
+    public getLeagueEntryByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}/entry`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.league.LeagueDto[]}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.league.LeagueDto[]}>(error, json, headers, callback);
         });
     }
 
     public getLeagueChallenger(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/challenger`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "type": type
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -240,7 +239,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getLeagueMaster(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/master`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "type": type
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -253,7 +252,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampions(region:string, locale:string, version:string, dataById:boolean, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "dataById": dataById,
@@ -267,7 +266,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getChampionById(region:string, id:number, locale:string, version:string, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "champData": champData
@@ -280,7 +279,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getItems(region:string, locale:string, version:string, itemListData:string, callback?:(error:Error, data:api.lolStaticData.ItemListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "itemListData": itemListData
@@ -293,7 +292,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getItemById(region:string, id:number, locale:string, version:string, itemData:string, callback?:(error:Error, data:api.lolStaticData.ItemDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "itemData": itemData
@@ -306,7 +305,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getLanguageStrings(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.LanguageStringsDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/language-strings`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version
         });
@@ -327,7 +326,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMaps(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.MapDataDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/map`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version
         });
@@ -339,7 +338,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMasteries(region:string, locale:string, version:string, masteryListData:string, callback?:(error:Error, data:api.lolStaticData.MasteryListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "masteryListData": masteryListData
@@ -352,7 +351,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMasteryById(region:string, id:number, locale:string, version:string, masteryData:string, callback?:(error:Error, data:api.lolStaticData.MasteryDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "masteryData": masteryData
@@ -374,7 +373,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRunes(region:string, locale:string, version:string, runeListData:string, callback?:(error:Error, data:api.lolStaticData.RuneListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "runeListData": runeListData
@@ -387,7 +386,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRuneById(region:string, id:number, locale:string, version:string, runeData:string, callback?:(error:Error, data:api.lolStaticData.RuneDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "runeData": runeData
@@ -400,7 +399,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummonerSpells(region:string, locale:string, version:string, dataById:boolean, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "dataById": dataById,
@@ -414,7 +413,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummonerSpellById(region:string, id:number, locale:string, version:string, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell/${id}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "locale": locale,
             "version": version,
             "spellData": spellData
@@ -475,7 +474,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchByIdAndTournamentCode(region:string, matchId:number, tournamentCode:string, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/for-tournament/${matchId}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "tournamentCode": tournamentCode,
             "includeTimeline": includeTimeline
         });
@@ -487,7 +486,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchById(region:string, matchId:number, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/${matchId}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "includeTimeline": includeTimeline
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -500,7 +499,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getMatchesBySummonerId(region:string, summonerId:number, championIds:string, rankedQueues:string, seasons:string, beginTime:number, endTime:number, beginIndex:number, endIndex:number, callback?:(error:Error, data:api.matchlist.MatchList)=>void):void {
         var path = `/api/lol/${region}/v2.2/matchlist/by-summoner/${summonerId}`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "championIds": championIds,
             "rankedQueues": rankedQueues,
             "seasons": seasons,
@@ -519,7 +518,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getRankedBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.RankedStatsDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/ranked`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "season": season
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -530,7 +529,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getSummaryBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.PlayerStatsSummaryListDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/summary`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "season": season
         });
         var reqUrl = this.apiUrl(region, path, query);
@@ -541,68 +540,68 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // summoner
 
-    public getSummonerByNames(region:string, summonerNames:string, callback?:(error:Error, data:{[s: string]: api.summoner.SummonerDto})=>void):void {
+    public getSummonerByNames(region:string, summonerNames:string, callback?:(error:Error, data:{[s:string]:api.summoner.SummonerDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/by-name/${encodeURIComponent(summonerNames)}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.SummonerDto}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.summoner.SummonerDto}>(error, json, headers, callback);
         });
     }
 
-    public getSummonerByIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.summoner.SummonerDto})=>void):void {
+    public getSummonerByIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.SummonerDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.SummonerDto}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.summoner.SummonerDto}>(error, json, headers, callback);
         });
     }
 
-    public getMasteryPagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.summoner.MasteryPagesDto})=>void):void {
+    public getMasteryPagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.MasteryPagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/masteries`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.MasteryPagesDto}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.summoner.MasteryPagesDto}>(error, json, headers, callback);
         });
     }
 
-    public getNameBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: string})=>void):void {
+    public getNameBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:string})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/name`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: string}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:string}>(error, json, headers, callback);
         });
     }
 
-    public getRunePagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.summoner.RunePagesDto})=>void):void {
+    public getRunePagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.RunePagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/runes`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.summoner.RunePagesDto}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.summoner.RunePagesDto}>(error, json, headers, callback);
         });
     }
 
     // team
 
-    public getTeamsBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s: string]: api.team.TeamDto[]})=>void):void {
+    public getTeamsBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.team.TeamDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.4/team/by-summoner/${summonerIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.team.TeamDto[]}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.team.TeamDto[]}>(error, json, headers, callback);
         });
     }
 
-    public getTeamsByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s: string]: api.team.TeamDto})=>void):void {
+    public getTeamsByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.team.TeamDto})=>void):void {
         var path = `/api/lol/${region}/v2.4/team/${teamIds}`;
         var query = {};
         var reqUrl = this.apiUrl(region, path, query);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
-            LeagueTypenode.checkAndCast<{[s: string]: api.team.TeamDto}>(error, json, headers, callback);
+            LeagueTypenode.checkAndCast<{[s:string]:api.team.TeamDto}>(error, json, headers, callback);
         });
     }
 
@@ -610,7 +609,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public createTournamentCodesById(tournamentId:number, count:number, body:api.tournamentProvider.TournamentCodeParameters, callback?:(error:Error, data:string[])=>void):void {
         var path = `/tournament/public/v1/code`;
-        var query = this.encodeProperties({
+        var query = LeagueTypenode.encodeProperties({
             "tournamentId": tournamentId,
             "count": count
         });
@@ -667,13 +666,13 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // Public utility methods
 
-    public static uniqueName(name): string {
+    public static uniqueName(name):string {
         return name.replace(/ /g, "").toLowerCase();
     }
 
     // Private methods
 
-    private encodeProperties(query:Object) {
+    private static encodeProperties(query:Object) {
         for (var key in query) {
             if (query[key] == null) {
                 delete query[key];
@@ -703,7 +702,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
     }
 
-    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void, useHttps: boolean = true) {
+    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void, useHttps:boolean = true) {
         var options:https.RequestOptions = {
             hostname: reqUrl.hostname,
             path: reqUrl.pathname + (reqUrl.query ? reqUrl.query : ''),
@@ -713,7 +712,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
                 'Content-Length': content.length
             }
         };
-        var req: ClientRequest;
+        var req:http.ClientRequest;
         var handler = (res) => {
             var body = '';
             res.on('data', (chunk) => {
@@ -751,12 +750,14 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     private static errorCheck(jsonContent:string, headers:Object) {
         var data = JSON.parse(jsonContent);
-        if (data.status && data.status.status_code !== 200) {
+        if (data.status && data.status['status_code'] !== 200) {
             var error:ApiError;
-            if (data.status.status_code == 429) {
-                error = new TooManyRequestsError(`Server responded with error ${data.status.status_code} : "${data.status.message}"`, headers['retry-after'], headers['x-rate-limit-type']);
+            if (data.status['status_code'] == 429) {
+                error = new TooManyRequestsError(
+                    `Server responded with error ${data.status['status_code']} : "${data.status.message}"`,
+                    headers['retry-after'], headers['x-rate-limit-type']);
             } else {
-                error = new ApiError(data.status.status_code, `Server responded with error ${data.status.status_code} : "${data.status.message}"`);
+                error = new ApiError(data.status['status_code'], `Server responded with error ${data.status['status_code']} : "${data.status.message}"`);
             }
             throw error;
         }
