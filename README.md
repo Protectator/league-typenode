@@ -22,8 +22,11 @@ import * as leaguetn from 'league-typenode';
 var tn: leaguetn.LeagueTypenode = new leaguetn.LeagueTypenode('your-api-key', false);
 
 // Use it with callbacks
-tn.getSummonerByNames("euw", "Protectator", (summoners) => {
-    console.log(summoners["Protectator"].id);
+tn.getSummonerByNames("euw", "protectator", (error, summoners) => {
+    if (error) {
+        throw error;
+    }
+    console.log(summoners["protectator"].id);
 });
 ```
 
