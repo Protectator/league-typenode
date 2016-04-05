@@ -14,6 +14,7 @@ export class LeagueTypenodeTests {
     private static maxRetry = 3;
     private static playerId = 20717177;
     private static playerName = "FNC Rekkles";
+    private static playerIdForTeam = 25517257; // Protectator
     private static teamId = "TEAM-bafbc9a0-dd6b-11e4-8df7-c81f66db8bc5"; // [Adkrn] The Bad Guys of Adrkness
     private static locale = "en_US";
     private static version = "6.6.1";
@@ -842,7 +843,7 @@ export class LeagueTypenodeTests {
     private static testGetShard(tn:LeagueTypenode, retries:number, done:Function):void {
         tn.getShard("euw", (error, response) => {
             if (!error) {
-                chai.assert.equal(response.region_tag, "euw");
+                chai.assert.equal(response.slug, "euw");
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetShard, retries, done);
@@ -972,9 +973,9 @@ export class LeagueTypenodeTests {
     }
 
     private static testGetTeamsBySummonerIds(tn:LeagueTypenode, retries:number, done:Function):void {
-        tn.getTeamsBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
+        tn.getTeamsBySummonerIds("euw", `${LeagueTypenodeTests.playerIdForTeam}`, (error, response) => {
             if (!error) {
-                chai.assert.isNumber(response[`${LeagueTypenodeTests.playerId}`][0].roster.ownerId);
+                chai.assert.isNumber(response[`${LeagueTypenodeTests.playerIdForTeam}`][0].roster.ownerId);
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetTeamsBySummonerIds, retries, done);
