@@ -5,9 +5,11 @@
  */
 
 import * as https from 'https';
+import * as http from 'http';
 import * as url from 'url';
 import * as api from 'leagueApi';
 import * as fs from 'fs';
+import {ClientRequest} from "http";
 
 export class ApiKey {
     public value:string;
@@ -436,7 +438,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     public getShards(callback?:(error:Error, data:api.lolStatus.Shard[])=>void):void {
         var reqUrl = {
-            protocol: this.baseConfig.protocol,
+            protocol: 'http',
             slashes: this.baseConfig.slashes,
             hostname: `status.leagueoflegends.com`,
             port: this.baseConfig.port,
@@ -444,12 +446,12 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStatus.Shard[]>(error, json, headers, callback);
-        }, false); // TODO : Check why rejectUnauthorized=false has to be used
+        }, false);
     }
 
     public getShard(region:string, callback?:(error:Error, data:api.lolStatus.ShardStatus)=>void):void {
         var reqUrl = {
-            protocol: this.baseConfig.protocol,
+            protocol: 'http',
             slashes: this.baseConfig.slashes,
             hostname: `status.leagueoflegends.com`,
             port: this.baseConfig.port,
@@ -457,7 +459,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.lolStatus.ShardStatus>(error, json, headers, callback);
-        }, false); // TODO : Check why rejectUnauthorized=false has to be used
+        }, false);
     }
 
     // match
@@ -684,18 +686,18 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         };
     }
 
-    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void, rejectUnauthorized: boolean = true) {
+    private apiCall(reqUrl:url.Url, method:string = 'GET', content?:string, callback?:(error:Error, data:string, headers:Object)=>void, useHttps: boolean = true) {
         var options:https.RequestOptions = {
             hostname: reqUrl.hostname,
-            path: reqUrl.pathname + reqUrl.query,
+            path: reqUrl.pathname + (reqUrl.query ? reqUrl.query : ''),
             method: method,
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Content-Length': content.length
-            },
-            rejectUnauthorized: rejectUnauthorized
+            }
         };
-        var req = https.request(options, (res) => {
+        var req: ClientRequest;
+        var handler = (res) => {
             var body = '';
             res.on('data', (chunk) => {
                 body += chunk;
@@ -703,7 +705,12 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             res.on('end', () => {
                 callback(null, body, res.headers);
             })
-        });
+        };
+        if (useHttps) {
+            req = https.request(options, handler);
+        } else {
+            req = http.request(options, handler);
+        }
         req.on('error', (e) => {
             callback(e, null, null);
         });
