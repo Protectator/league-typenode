@@ -10,21 +10,38 @@ import * as url from 'url';
 import * as api from 'leagueApi';
 import * as fs from 'fs';
 
+/**
+ * A key used to access the API
+ */
 export class ApiKey {
-    public value:string;
-    public tournaments:boolean;
-
-    constructor(value:string, tournamentsAccess:boolean = false) {
-        this.value = value;
-        this.tournaments = tournamentsAccess;
+    /**
+     * Creates an ApiKey instance from its value.
+     *
+     * @param value Actual string of the key
+     * @param tournamentsAccess Whether or not the key is valid for the tournaments endpoints
+     */
+    constructor(public value:string, public tournaments:boolean = false) {
     }
 
+    /**
+     * Creates an ApiKey instance from a json file.
+     *
+     * @param fileName Name of the file containing the key
+     * @returns {ApiKey}
+     */
     public static fromFile(fileName:string):ApiKey {
         var fileContent:any = fs.readFileSync(fileName);
         var jsonContent = JSON.parse(fileContent);
         return new ApiKey(jsonContent.value, jsonContent.tournaments);
     }
 
+    /**
+     * Creates an ApiKey instance from an environment variable.
+     *
+     * @param variableName Name of the environment variable that contains the key's string value
+     * @param tournaments Whether or not the key is valid for the tournaments endpoints
+     * @returns {ApiKey}
+     */
     public static fromEnv(variableName:string, tournaments:boolean):ApiKey {
         var value:string;
         value = process.env[variableName];
@@ -32,14 +49,19 @@ export class ApiKey {
     }
 }
 
+/**
+ * An HTTP error that was answered from the server
+ */
 export class ApiError implements Error {
     public name:string = "ApiError";
 
     constructor(public code:number, public message:string) {
-        this.name = "ApiError";
     }
 }
 
+/**
+ * An error that happens when the number of calls ot the API exceed the key's rate limit
+ */
 export class TooManyRequestsError extends ApiError {
     public name:string = "TooManyRequestsError";
 
@@ -48,14 +70,27 @@ export class TooManyRequestsError extends ApiError {
     }
 }
 
+/**
+ * Handles the calls to the API
+ */
 export class LeagueTypenode implements api.champion.Operations, api.championmastery.Operations,
     api.currentGame.Operations, api.featuredGames.Operations, api.game.Operations, api.league.Operations,
     api.lolStaticData.Operations, api.lolStatus.Operations, api.match.Operations, api.matchlist.Operations,
     api.stats.Operations, api.summoner.Operations, api.team.Operations, api.tournamentProvider.Operations {
 
+    /**
+     * Key used for all standard requests
+     */
     public key:ApiKey;
+    /**
+     * Key used for requests to the tournaments endpoints
+     */
+    public tournamentsKey:ApiKey;
 
-    private baseConfig:url.Url;
+    private baseConfig:url.Url = {
+        protocol: 'https',
+        slashes: true
+    };
     private static platformRegion = {
         'BR1': 'br',
         'EUN1': 'eune',
@@ -73,8 +108,8 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     /**
      * Instanciates a LeagueTypenode object using a key value
      *
-     * @param keyValue The API's key value, or ApiKey
-     * @param tournamentsAccess true if the key can access tournaments endpoints
+     * @param keyValue The API key's value, or ApiKey
+     * @param tournamentsAccess true if the key can access tournaments endpoints. Used only if keyValue is a string
      */
     constructor(keyValue:string|ApiKey, tournamentsAccess:boolean = false) {
         if (keyValue instanceof ApiKey) {
@@ -82,10 +117,6 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
             return;
         } else if (typeof keyValue === "string") {
             this.key = new ApiKey(keyValue, tournamentsAccess);
-            this.baseConfig = {
-                protocol: 'https',
-                slashes: true
-            };
         } else {
             throw new Error("keyValue must be either a string or an ApiKey.");
         }
@@ -666,6 +697,14 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // Public utility methods
 
+    /**
+     * Used to find the unique reserved name for the summoner.
+     *
+     * Usually is the original name without spaces, and all lowercase.
+     *
+     * @param name Complete name of the summoner
+     * @returns {string} "indexed" unique name of the summoner
+     */
     public static uniqueName(name):string {
         return name.replace(/ /g, "").toLowerCase();
     }
