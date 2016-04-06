@@ -79,7 +79,7 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     api.stats.Operations, api.summoner.Operations, api.team.Operations, api.tournamentProvider.Operations {
 
     /**
-     * Key used for all standard requests
+     * Key used for all standard API requests
      */
     public key:ApiKey;
     /**
@@ -124,6 +124,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // champion
 
+    /**
+     * @inheritdoc
+     */
     public getChampionsStatus(region:string, freeToPlay?:boolean, callback?:(error:Error, data:api.champion.ChampionListDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion`;
         var query = LeagueTypenode.encodeProperties({
@@ -135,6 +138,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getChampionStatusById(region:string, id:number, callback?:(error:Error, data:api.champion.ChampionDto)=>void):void {
         var path = `/api/lol/${region}/v1.2/champion/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -148,6 +154,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // championmastery
 
+    /**
+     * @inheritdoc
+     */
     public getChampionMastery(platformId:string, playerId:number, championId:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champion/${championId}`;
         var query = {};
@@ -157,6 +166,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getChampionsMastery(platformId:string, playerId:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/champions`;
         var query = {};
@@ -166,6 +178,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getScore(platformId:string, playerId:number, callback?:(error:Error, data:number)=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/score`;
         var query = {};
@@ -175,6 +190,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getTopChampions(platformId:string, playerId:number, count:number, callback?:(error:Error, data:api.championmastery.ChampionMasteryDto[])=>void):void {
         var path = `/championmastery/location/${platformId}/player/${playerId}/topchampions`;
         var query = LeagueTypenode.encodeProperties({
@@ -188,6 +206,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // current-game
 
+    /**
+     * @inheritdoc
+     */
     public getSpectatorGameInfoBySummonerId(platformId:string, summonerId:number, callback?:(error:Error, data:api.currentGame.CurrentGameInfo)=>void):void {
         var path = `/observer-mode/rest/consumer/getSpectatorGameInfo/${platformId}/${summonerId}`;
         var query = {};
@@ -199,6 +220,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // featured-games
 
+    /**
+     * @inheritdoc
+     */
     public getFeaturedGames(region:string, callback?:(error:Error, data:api.featuredGames.FeaturedGames)=>void):void {
         var path = `/observer-mode/rest/featured`;
         var query = {};
@@ -210,6 +234,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // game
 
+    /**
+     * @inheritdoc
+     */
     public getRecentGamesBySummonerId(region:string, summonerId:number, callback?:(error:Error, data:api.game.RecentGamesDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/game/by-summoner/${summonerId}/recent`;
         var query = {};
@@ -221,6 +248,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // league
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}`;
         var query = {};
@@ -230,6 +260,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueEntryBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-summoner/${summonerIds}/entry`;
         var query = {};
@@ -239,6 +272,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}`;
         var query = {};
@@ -248,6 +284,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueEntryByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.league.LeagueDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.5/league/by-team/${teamIds}/entry`;
         var query = {};
@@ -257,6 +296,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueChallenger(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/challenger`;
         var query = LeagueTypenode.encodeProperties({
@@ -268,6 +310,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLeagueMaster(region:string, type:string, callback?:(error:Error, data:api.league.LeagueDto)=>void):void {
         var path = `/api/lol/${region}/v2.5/league/master`;
         var query = LeagueTypenode.encodeProperties({
@@ -281,6 +326,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // lol-static-data
 
+    /**
+     * @inheritdoc
+     */
     public getChampions(region:string, locale:string, version:string, dataById:boolean, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion`;
         var query = LeagueTypenode.encodeProperties({
@@ -295,6 +343,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getChampionById(region:string, id:number, locale:string, version:string, champData:string, callback?:(error:Error, data:api.lolStaticData.ChampionDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/champion/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -308,6 +359,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getItems(region:string, locale:string, version:string, itemListData:string, callback?:(error:Error, data:api.lolStaticData.ItemListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item`;
         var query = LeagueTypenode.encodeProperties({
@@ -321,6 +375,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getItemById(region:string, id:number, locale:string, version:string, itemData:string, callback?:(error:Error, data:api.lolStaticData.ItemDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/item/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -334,6 +391,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLanguageStrings(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.LanguageStringsDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/language-strings`;
         var query = LeagueTypenode.encodeProperties({
@@ -346,6 +406,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLanguages(region:string, callback?:(error:Error, data:string[])=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/languages`;
         var query = {};
@@ -355,6 +418,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMaps(region:string, locale:string, version:string, callback?:(error:Error, data:api.lolStaticData.MapDataDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/map`;
         var query = LeagueTypenode.encodeProperties({
@@ -367,6 +433,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMasteries(region:string, locale:string, version:string, masteryListData:string, callback?:(error:Error, data:api.lolStaticData.MasteryListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery`;
         var query = LeagueTypenode.encodeProperties({
@@ -380,6 +449,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMasteryById(region:string, id:number, locale:string, version:string, masteryData:string, callback?:(error:Error, data:api.lolStaticData.MasteryDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/mastery/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -393,6 +465,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getRealm(region:string, callback?:(error:Error, data:api.lolStaticData.RealmDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/realm`;
         var query = {};
@@ -402,6 +477,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getRunes(region:string, locale:string, version:string, runeListData:string, callback?:(error:Error, data:api.lolStaticData.RuneListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune`;
         var query = LeagueTypenode.encodeProperties({
@@ -415,6 +493,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getRuneById(region:string, id:number, locale:string, version:string, runeData:string, callback?:(error:Error, data:api.lolStaticData.RuneDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/rune/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -428,6 +509,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getSummonerSpells(region:string, locale:string, version:string, dataById:boolean, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellListDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell`;
         var query = LeagueTypenode.encodeProperties({
@@ -442,6 +526,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getSummonerSpellById(region:string, id:number, locale:string, version:string, spellData:string, callback?:(error:Error, data:api.lolStaticData.SummonerSpellDto)=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/summoner-spell/${id}`;
         var query = LeagueTypenode.encodeProperties({
@@ -455,6 +542,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getVersions(region:string, callback?:(error:Error, data:string[])=>void):void {
         var path = `/api/lol/static-data/${region}/v1.2/versions`;
         var query = {};
@@ -466,6 +556,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // lol-status
 
+    /**
+     * @inheritdoc
+     */
     public getShards(callback?:(error:Error, data:api.lolStatus.Shard[])=>void):void {
         var reqUrl = {
             protocol: 'http',
@@ -479,6 +572,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         }, false);
     }
 
+    /**
+     * @inheritdoc
+     */
     public getShard(region:string, callback?:(error:Error, data:api.lolStatus.ShardStatus)=>void):void {
         var reqUrl = {
             protocol: 'http',
@@ -494,6 +590,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // match
 
+    /**
+     * @inheritdoc
+     */
     public getMatchIdsByTournamentCode(region:string, tournamentCode:string, callback?:(error:Error, data:number[])=>void):void {
         var path = `/api/lol/${region}/v2.2/match/by-tournament/${tournamentCode}/ids`;
         var query = {};
@@ -503,6 +602,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMatchByIdAndTournamentCode(region:string, matchId:number, tournamentCode:string, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/for-tournament/${matchId}`;
         var query = LeagueTypenode.encodeProperties({
@@ -515,6 +617,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMatchById(region:string, matchId:number, includeTimeline:boolean, callback?:(error:Error, data:api.match.MatchDetail)=>void):void {
         var path = `/api/lol/${region}/v2.2/match/${matchId}`;
         var query = LeagueTypenode.encodeProperties({
@@ -528,6 +633,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // matchlist
 
+    /**
+     * @inheritdoc
+     */
     public getMatchesBySummonerId(region:string, summonerId:number, championIds:string, rankedQueues:string, seasons:string, beginTime:number, endTime:number, beginIndex:number, endIndex:number, callback?:(error:Error, data:api.matchlist.MatchList)=>void):void {
         var path = `/api/lol/${region}/v2.2/matchlist/by-summoner/${summonerId}`;
         var query = LeagueTypenode.encodeProperties({
@@ -547,6 +655,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // stats
 
+    /**
+     * @inheritdoc
+     */
     public getRankedBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.RankedStatsDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/ranked`;
         var query = LeagueTypenode.encodeProperties({
@@ -558,6 +669,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getSummaryBySummonerId(region:string, summonerId:number, season:string, callback?:(error:Error, data:api.stats.PlayerStatsSummaryListDto)=>void):void {
         var path = `/api/lol/${region}/v1.3/stats/by-summoner/${summonerId}/summary`;
         var query = LeagueTypenode.encodeProperties({
@@ -571,6 +685,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // summoner
 
+    /**
+     * @inheritdoc
+     */
     public getSummonerByNames(region:string, summonerNames:string, callback?:(error:Error, data:{[s:string]:api.summoner.SummonerDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/by-name/${encodeURIComponent(summonerNames)}`;
         var query = {};
@@ -580,6 +697,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getSummonerByIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.SummonerDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}`;
         var query = {};
@@ -589,6 +709,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getMasteryPagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.MasteryPagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/masteries`;
         var query = {};
@@ -598,6 +721,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getNameBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:string})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/name`;
         var query = {};
@@ -607,6 +733,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getRunePagesBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.summoner.RunePagesDto})=>void):void {
         var path = `/api/lol/${region}/v1.4/summoner/${summonerIds}/runes`;
         var query = {};
@@ -618,6 +747,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // team
 
+    /**
+     * @inheritdoc
+     */
     public getTeamsBySummonerIds(region:string, summonerIds:string, callback?:(error:Error, data:{[s:string]:api.team.TeamDto[]})=>void):void {
         var path = `/api/lol/${region}/v2.4/team/by-summoner/${summonerIds}`;
         var query = {};
@@ -627,6 +759,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getTeamsByTeamIds(region:string, teamIds:string, callback?:(error:Error, data:{[s:string]:api.team.TeamDto})=>void):void {
         var path = `/api/lol/${region}/v2.4/team/${teamIds}`;
         var query = {};
@@ -638,6 +773,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // tournament-provider
 
+    /**
+     * @inheritdoc
+     */
     public createTournamentCodesById(tournamentId:number, count:number, body:api.tournamentProvider.TournamentCodeParameters, callback?:(error:Error, data:string[])=>void):void {
         var path = `/tournament/public/v1/code`;
         var query = LeagueTypenode.encodeProperties({
@@ -650,6 +788,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getTournamentByCode(tournamentCode:string, callback?:(error:Error, data:api.tournamentProvider.TournamentCodeDTO)=>void):void {
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
@@ -659,6 +800,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public updateTournamentByCode(tournamentCode:string, body:api.tournamentProvider.TournamentCodeUpdateParameters, callback?:(error:Error, data:void)=>void):void {
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
@@ -668,6 +812,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public getLobbyEventsByTournamentCode(tournamentCode:string, callback?:(error:Error, data:api.tournamentProvider.LobbyEventDTOWrapper)=>void):void {
         var path = `/tournament/public/v1/lobby/events/by-code/${tournamentCode}`;
         var query = {};
@@ -677,6 +824,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public createTournamentProvider(body:api.tournamentProvider.ProviderRegistrationParameters, callback?:(error:Error, data:number)=>void):void {
         var path = `/tournament/public/v1/provider`;
         var query = {};
@@ -686,6 +836,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         });
     }
 
+    /**
+     * @inheritdoc
+     */
     public createTournament(body:api.tournamentProvider.TournamentRegistrationParameters, callback?:(error:Error, data:number)=>void):void {
         var path = `/tournament/public/v1/tournament`;
         var query = {};
