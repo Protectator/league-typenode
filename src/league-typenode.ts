@@ -18,7 +18,7 @@ export class ApiKey {
      * Creates an ApiKey instance from its value.
      *
      * @param value Actual string of the key
-     * @param tournamentsAccess Whether or not the key is valid for the tournaments endpoints
+     * @param tournaments Whether or not the key is valid for the tournaments endpoints
      */
     constructor(public value:string, public tournaments:boolean = false) {
     }
@@ -81,11 +81,11 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
     /**
      * Key used for all standard API requests
      */
-    public key:ApiKey;
+    protected key:ApiKey;
     /**
      * Key used for requests to the tournaments endpoints
      */
-    public tournamentsKey:ApiKey;
+    protected tournamentsKey:ApiKey;
 
     private baseConfig:url.Url = {
         protocol: 'https',
@@ -109,14 +109,29 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * Instanciates a LeagueTypenode object using a key value
      *
      * @param keyValue The API key's value, or ApiKey
-     * @param tournamentsAccess true if the key can access tournaments endpoints. Used only if keyValue is a string
      */
-    constructor(keyValue:string|ApiKey, tournamentsAccess:boolean = false) {
+    constructor(keyValue:string|ApiKey) {
         if (keyValue instanceof ApiKey) {
             this.key = keyValue;
             return;
         } else if (typeof keyValue === "string") {
-            this.key = new ApiKey(keyValue, tournamentsAccess);
+            this.key = new ApiKey(keyValue, false);
+        } else {
+            throw new Error("keyValue must be either a string or an ApiKey.");
+        }
+    }
+
+    /**
+     * Adds an API key that has access to the tournaments endpoint
+     *
+     * This key will be used only when requests are made to the tournaments endpoint
+     *
+     * @param keyValue The API key's value, or ApiKey
+     */
+    public addTournamentsKey(keyValue:ApiKey) {
+        if (keyValue instanceof ApiKey) {
+            this.key = keyValue;
+            return;
         } else {
             throw new Error("keyValue must be either a string or an ApiKey.");
         }
@@ -777,12 +792,13 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public createTournamentCodesById(tournamentId:number, count:number, body:api.tournamentProvider.TournamentCodeParameters, callback?:(error:Error, data:string[])=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/code`;
         var query = LeagueTypenode.encodeProperties({
             "tournamentId": tournamentId,
             "count": count
         });
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'POST', JSON.stringify(body), (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<string[]>(error, json, headers, callback);
         });
@@ -792,9 +808,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public getTournamentByCode(tournamentCode:string, callback?:(error:Error, data:api.tournamentProvider.TournamentCodeDTO)=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.tournamentProvider.TournamentCodeDTO>(error, json, headers, callback);
         });
@@ -804,9 +821,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public updateTournamentByCode(tournamentCode:string, body:api.tournamentProvider.TournamentCodeUpdateParameters, callback?:(error:Error, data:void)=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/code/${tournamentCode}`;
         var query = {};
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'PUT', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<void>(error, json, headers, callback);
         });
@@ -816,9 +834,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public getLobbyEventsByTournamentCode(tournamentCode:string, callback?:(error:Error, data:api.tournamentProvider.LobbyEventDTOWrapper)=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/lobby/events/by-code/${tournamentCode}`;
         var query = {};
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'GET', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<api.tournamentProvider.LobbyEventDTOWrapper>(error, json, headers, callback);
         });
@@ -828,9 +847,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public createTournamentProvider(body:api.tournamentProvider.ProviderRegistrationParameters, callback?:(error:Error, data:number)=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/provider`;
         var query = {};
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'POST', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<number>(error, json, headers, callback);
         });
@@ -840,9 +860,10 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
      * @inheritdoc
      */
     public createTournament(body:api.tournamentProvider.TournamentRegistrationParameters, callback?:(error:Error, data:number)=>void):void {
+        this.needsTournamentsKey();
         var path = `/tournament/public/v1/tournament`;
         var query = {};
-        var reqUrl = this.apiUrl("global", path, query);
+        var reqUrl = this.apiUrl("global", path, query, true);
         this.apiCall(reqUrl, 'POST', '', (error:Error, json:string, headers:Object) => {
             LeagueTypenode.checkAndCast<number>(error, json, headers, callback);
         });
@@ -864,6 +885,12 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
 
     // Private methods
 
+    protected needsTournamentsKey() {
+        if (this.tournamentsKey == null) {
+            throw Error("No tournaments key added. Use addTournamentsKey().");
+        }
+    }
+
     private static encodeProperties(query:Object) {
         for (var key in query) {
             if (query[key] == null) {
@@ -875,9 +902,9 @@ export class LeagueTypenode implements api.champion.Operations, api.championmast
         return query;
     }
 
-    private apiUrl(region:string, path:string, query:Object):url.Url {
+    private apiUrl(region:string, path:string, query:Object, tournaments:boolean = false):url.Url {
         var result = "";
-        query["api_key"] = this.key.value;
+        query["api_key"] = (tournaments ? this.tournamentsKey.value : this.key.value);
         for (var key in query) {
             if (result != "") {
                 result += "&";

@@ -54,7 +54,7 @@ export class LeagueTypenodeTests {
             }
         }
 
-        var tn:leaguetn.LeagueTypenode = new leaguetn.LeagueTypenode(keyValue, keyTournaments);
+        var tn:leaguetn.LeagueTypenode = new leaguetn.LeagueTypenode(keyValue);
 
         describe('champion-v1.2', function () {
 
@@ -421,14 +421,18 @@ export class LeagueTypenodeTests {
         describe('tournament-provider', function () {
 
             before(function () {
-                if (!tn.key.tournaments) {
-                    console.info("Skipping 'tournament-provider' tests : No compatible key found");
-                    this.skip();
-                }
+                console.info("Skipping 'tournament-provider' tests : No compatible key found");
+                this.skip();
             });
 
             this.slow(200);
             this.timeout(15000);
+
+            describe('createTournamentProvider', () => {
+                it("Test case to be defined..."/*, (done) => {
+                 LeagueTypenodeTests.testCreateTournamentProvider(tn, LeagueTypenodeTests.maxRetry, done);
+                 }*/);
+            });
 
             describe('createTournamentCodesById', () => {
                 it("Test case to be defined..."/*, (done) => {
@@ -451,12 +455,6 @@ export class LeagueTypenodeTests {
             describe('getLobbyEventsByTournamentCode', () => {
                 it("Test case to be defined..."/*, (done) => {
                  LeagueTypenodeTests.testGetLobbyEventsByTournamentCode(tn, LeagueTypenodeTests.maxRetry, done);
-                 }*/);
-            });
-
-            describe('createTournamentProvider', () => {
-                it("Test case to be defined..."/*, (done) => {
-                 LeagueTypenodeTests.testCreateTournamentProvider(tn, LeagueTypenodeTests.maxRetry, done);
                  }*/);
             });
 
