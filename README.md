@@ -10,7 +10,7 @@ Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Lege
 
 ## Building
 
-- Run `gulp build` in the project's root directory to build the sources and test files.
+- Run `npm run build` in the project's root directory to build the sources and test files.
 
 ## Usage
 
@@ -32,8 +32,7 @@ tn.getSummonerByNames("euw", "protectator", (error, summoners) => {
 
 ## Testing
 
-- Run `gulp test` in the project's root directory to run the tests locally.
-
+- Run `npm test` in the project's root directory to run the tests locally.
 
 ## License
 

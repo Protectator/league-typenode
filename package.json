@@ -4,7 +4,8 @@
   "description": "Simple TypeScript wrapper for Riot Games' API using league-typedef definitions",
   "main": "build/league-typenode.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
