@@ -33,7 +33,7 @@ gulp.task('buildTest', function () {
         .pipe(gulp.dest('build/test'));
 });
 
-gulp.task('pre-test', function () {
+gulp.task('pre-test', ['build'], function () {
     return gulp.src(['build/**/*.js'])
         // Covering files
         .pipe(istanbul())
@@ -41,14 +41,14 @@ gulp.task('pre-test', function () {
         .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['build', 'pre-test'], function () {
+gulp.task('test', ['pre-test'], function () {
     gulp.src('build/test/league-typenode-tests.js', {read: false})
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports());
 });
 
-gulp.task('coveralls', [], function() {
+gulp.task('coveralls', ['test'], function() {
     gulp.src('./coverage/lcov.info')
         .pipe(coveralls());
 });
