@@ -140,7 +140,7 @@ export class LeagueTypenodeTests {
             this.timeout(15000);
 
             describe('getRecentGamesBySummonerId', () => {
-                it("should return a 404 error", (done) => {
+                it("should return a 4XX error", (done) => {
                     LeagueTypenodeTests.testGetRecentGamesBySummonerId(tn, done);
                 });
             });
@@ -583,7 +583,7 @@ export class LeagueTypenodeTests {
         tn.getRecentGamesBySummonerId("euw", 255171257, (error, response) => {
             if (error) {
                 if (error.name == "ApiError") {
-                    if ((<ApiError>error).code == 404) {
+                    if ((<ApiError>error).code >= 404 && (<ApiError>error).code < 499) {
                         done();
                     }
                 }

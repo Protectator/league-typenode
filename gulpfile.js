@@ -46,6 +46,9 @@ gulp.task('test', ['build', 'pre-test'], function () {
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports());
+});
+
+gulp.task('coveralls', [], function() {
     gulp.src('./coverage/lcov.info')
         .pipe(coveralls());
 });
