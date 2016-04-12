@@ -27,10 +27,14 @@
   "homepage": "https://github.com/Protectator/league-typenode#readme",
   "devDependencies": {
     "chai": "^3.4.1",
+    "coveralls": "^2.11.9",
     "gulp": "^3.9.0",
+    "gulp-coveralls": "^0.1.4",
+    "gulp-istanbul": "^0.10.4",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.12.1",
+    "istanbul": "^0.4.3",
     "mocha": "^2.3.4",
     "typescript": "^1.8.7"
   }
