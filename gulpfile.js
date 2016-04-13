@@ -3,7 +3,6 @@ var ts = require('gulp-typescript');
 var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
 var istanbul = require('gulp-istanbul');
-var coveralls = require('gulp-coveralls');
 
 gulp.task('default', ['build']);
 
@@ -34,7 +33,7 @@ gulp.task('buildTest', function () {
 });
 
 gulp.task('pre-test', ['build'], function () {
-    return gulp.src(['build/**/*.js'])
+    return gulp.src(['build/league-typenode.js'])
         // Covering files
         .pipe(istanbul())
         // Force `require` to return covered files
@@ -46,9 +45,4 @@ gulp.task('test', ['pre-test'], function () {
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports());
-});
-
-gulp.task('coveralls', ['test'], function() {
-    gulp.src('./coverage/lcov.info')
-        .pipe(coveralls());
 });

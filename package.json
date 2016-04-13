@@ -5,7 +5,9 @@
   "main": "build/league-typenode.js",
   "scripts": {
     "test": "gulp test",
-    "build": "gulp build"
+    "build": "gulp build",
+    "coveralls": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js"
+
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,6 @@
     "chai": "^3.4.1",
     "coveralls": "^2.11.9",
     "gulp": "^3.9.0",
-    "gulp-coveralls": "^0.1.4",
     "gulp-istanbul": "^0.10.4",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
