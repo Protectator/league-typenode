@@ -3,6 +3,7 @@ var ts = require('gulp-typescript');
 var mocha = require('gulp-mocha');
 var sourcemaps = require('gulp-sourcemaps');
 var istanbul = require('gulp-istanbul');
+var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
 gulp.task('default', ['build']);
 
@@ -45,4 +46,22 @@ gulp.task('test', ['pre-test'], function () {
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports());
+});
+
+gulp.task('remap', [], function() {
+    return gulp.src('coverage/coverage-final.json')
+        .pipe(remapIstanbul({
+            reports: {
+                'html' : 'html'
+            }
+        }));
+});
+
+gulp.task('remap-lcov', [], function() {
+    return gulp.src('coverage/coverage-final.json')
+        .pipe(remapIstanbul({
+            reports: {
+                'lcovonly' : './coverage/lcov-remapped.info'
+            }
+        }));
 });

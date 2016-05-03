@@ -6,8 +6,9 @@
   "scripts": {
     "test": "gulp test",
     "build": "gulp build",
-    "coveralls": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js"
-
+    "remap": "gulp build",
+    "remap-lcov": "gulp remap-lcov",
+    "coveralls": "cat coverage/lcov-remapped.info | node node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "gulp-typescript": "^2.12.1",
     "istanbul": "^0.4.3",
     "mocha": "^2.3.4",
+    "remap-istanbul": "^0.6.3",
     "typescript": "^1.8.7"
   }
 }
