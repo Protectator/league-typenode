@@ -10,7 +10,7 @@ gulp.task('default', ['build']);
 gulp.task('build', ['buildSrc', 'buildTest']);
 
 gulp.task('buildSrc', function () {
-    return gulp.src(["src/*.ts", "lib/league-typedef/leagueapi.d.ts", "typings/**/*.d.ts"])
+    return gulp.src(["*.ts", "lib/league-typedef/leagueapi.d.ts", "typings/**/*.d.ts"])
         .pipe(sourcemaps.init())
         .pipe(ts({
             module: "commonjs",
@@ -18,11 +18,11 @@ gulp.task('buildSrc', function () {
             removeComments: true
         }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('build/'));
+        .pipe(gulp.dest('.'));
 });
 
 gulp.task('buildTest', function () {
-    return gulp.src(["src/test/*.ts", "lib/league-typedef/leagueapi.d.ts", "typings/**/*.d.ts"])
+    return gulp.src(["test/*.ts", "lib/league-typedef/leagueapi.d.ts", "typings/**/*.d.ts"])
         .pipe(sourcemaps.init())
         .pipe(ts({
             module: "commonjs",
@@ -30,11 +30,11 @@ gulp.task('buildTest', function () {
             removeComments: true
         }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('build/test'));
+        .pipe(gulp.dest('test'));
 });
 
 gulp.task('pre-test', ['build'], function () {
-    return gulp.src(['build/league-typenode.js'])
+    return gulp.src(['index.js'])
         // Covering files
         .pipe(istanbul())
         // Force `require` to return covered files
@@ -42,7 +42,7 @@ gulp.task('pre-test', ['build'], function () {
 });
 
 gulp.task('test', ['pre-test'], function () {
-    gulp.src('build/test/league-typenode-tests.js', {read: false})
+    gulp.src('test/league-typenode-tests.js', {read: false})
         .pipe(mocha())
         // Creating the reports after tests ran
         .pipe(istanbul.writeReports());

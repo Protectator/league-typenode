@@ -26,11 +26,12 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
-# Compiled js files
-/build
-
 # Config file
 key.json
 
 # Project files
 .idea
+
+# Generated files
+index.js
+test/*.js

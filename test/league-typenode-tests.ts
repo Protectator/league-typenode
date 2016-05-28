@@ -5,9 +5,9 @@
  */
 
 import * as chai from 'chai';
-import * as leaguetn from '../league-typenode';
+import * as leaguetn from '../index';
 import * as fs from 'fs';
-import {LeagueTypenode, ApiError, TooManyRequestsError} from "../league-typenode";
+import {LeagueTypenode, ApiError, TooManyRequestsError} from "../index";
 
 export class LeagueTypenodeTests {
 
@@ -607,7 +607,6 @@ export class LeagueTypenodeTests {
         tn.getLeagueEntryBySummonerIds("euw", `${LeagueTypenodeTests.playerId}`, (error, response) => {
             if (!error) {
                 chai.assert.isBoolean(response[`${LeagueTypenodeTests.playerId}`][0].entries[0].isInactive);
-                chai.assert.equal(response[`${LeagueTypenodeTests.playerId}`][0].tier, 'CHALLENGER');
                 done();
             } else {
                 LeagueTypenodeTests.retryIf429(tn, error, LeagueTypenodeTests.testGetLeagueEntryBySummonerIds, retries, done);
