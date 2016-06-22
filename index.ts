@@ -7,7 +7,7 @@
 import * as https from 'https';
 import * as http from 'http';
 import * as url from 'url';
-import * as api from 'leagueApi';
+import * as api from 'league-typedef';
 import * as fs from 'fs';
 
 /**
@@ -21,6 +21,7 @@ export class ApiKey {
      * @param tournaments Whether or not the key is valid for the tournaments endpoints
      */
     constructor(public value:string, public tournaments:boolean = false) {
+
     }
 
     /**

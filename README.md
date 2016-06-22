@@ -1,5 +1,5 @@
 # league-typenode
-[![Build Status](https://travis-ci.org/Protectator/league-typenode.svg?branch=master)](https://travis-ci.org/Protectator/league-typenode) [![Coverage Status](https://coveralls.io/repos/github/Protectator/league-typenode/badge.svg?branch=master)](https://coveralls.io/github/Protectator/league-typenode?branch=master) [![devDependency Status](https://david-dm.org/protectator/league-typenode/dev-status.svg)](https://david-dm.org/protectator/league-typenode#info=devDependencies)
+[![NPM version](https://badge.fury.io/js/league-typenode.svg?branch=master)](https://www.npmjs.com/package/league-typenode) [![Build Status](https://travis-ci.org/Protectator/league-typenode.svg?branch=master)](https://travis-ci.org/Protectator/league-typenode) [![Coverage Status](https://coveralls.io/repos/github/Protectator/league-typenode/badge.svg?branch=master)](https://coveralls.io/github/Protectator/league-typenode?branch=master) [![devDependency Status](https://david-dm.org/protectator/league-typenode/dev-status.svg)](https://david-dm.org/protectator/league-typenode#info=devDependencies)
 
 Simple TypeScript + Node.js wrapper for the official [Riot Games' League of Legends API](https://developer.riotgames.com/api/methods) using [league-typedef](https://github.com/Protectator/league-typedef) definitions.
 

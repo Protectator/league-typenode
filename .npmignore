@@ -2,3 +2,4 @@
 key.json
 key.example.json
 node_modules/
+coverage/

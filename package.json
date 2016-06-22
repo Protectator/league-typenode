@@ -1,6 +1,6 @@
 {
   "name": "league-typenode",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Simple TypeScript wrapper for Riot Games' API using league-typedef definitions",
   "main": "index.js",
   "scripts": {
@@ -32,11 +32,12 @@
     "chai": "^3.4.1",
     "coveralls": "^2.11.9",
     "gulp": "^3.9.0",
-    "gulp-istanbul": "^0.10.4",
+    "gulp-istanbul": "^1.0.0",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.12.1",
     "istanbul": "^0.4.3",
+    "league-typedef": "^1.0.1",
     "mocha": "^2.3.4",
     "remap-istanbul": "^0.6.3",
     "typescript": "^1.8.7"
